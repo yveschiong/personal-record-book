@@ -21,6 +21,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

@@ -6,14 +6,15 @@ import com.yveschiong.data.local.PeopleDao
 import com.yveschiong.data.mappers.PersonDataEntityMapper
 import com.yveschiong.data.mappers.PersonEntityDataMapper
 import com.yveschiong.data.remote.RemoteDataSource
+import com.yveschiong.domain.AppRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
 class DataModule {
-    @Provides
     @Singleton
+    @Provides
     fun provideLocalDataSource(
         dao: PeopleDao,
         mapper: PersonEntityDataMapper
@@ -21,13 +22,13 @@ class DataModule {
         return LocalDataSource(dao, mapper)
     }
 
-    @Provides
     @Singleton
+    @Provides
     fun provideAppRepository(
         localDataSource: LocalDataSource,
         remoteDataSource: RemoteDataSource,
         mapper: PersonDataEntityMapper
-    ): DataRepository {
+    ): AppRepository {
         return DataRepository(localDataSource, remoteDataSource, mapper)
     }
 }
