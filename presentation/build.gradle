@@ -6,6 +6,10 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    androidExtensions {
+        experimental = true
+    }
+
     dataBinding {
         enabled = true
     }

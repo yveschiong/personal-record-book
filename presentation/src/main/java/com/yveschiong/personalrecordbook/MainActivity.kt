@@ -22,9 +22,11 @@ class MainActivity : BaseActivity() {
 
         setupFab(fab)
 
-        setupNavDrawerToggle(drawer_layout, ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        ))
+        setupNavDrawerToggle(
+            drawer_layout, ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            )
+        )
 
         setupNavDrawerItemSelectedListener(nav_view)
     }
