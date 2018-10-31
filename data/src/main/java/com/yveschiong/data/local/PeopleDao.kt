@@ -1,4 +1,4 @@
-package com.yveschiong.domain.daos
+package com.yveschiong.data.local
 
 import android.arch.persistence.room.*
 import com.yveschiong.domain.entities.PersonEntity

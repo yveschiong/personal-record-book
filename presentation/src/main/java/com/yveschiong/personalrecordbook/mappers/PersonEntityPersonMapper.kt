@@ -14,10 +14,4 @@ constructor() : Mapper<PersonEntity, Person>() {
             from.firstName, from.middleName, from.lastName, from.id
         )
     }
-
-    override fun mapTo(from: Person): PersonEntity {
-        return PersonEntity(
-            from.firstName, from.middleName, from.lastName, from.id
-        )
-    }
 }
