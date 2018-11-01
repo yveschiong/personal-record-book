@@ -3,7 +3,6 @@ package com.yveschiong.personalrecordbook.ui.addperson
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
@@ -49,9 +48,5 @@ class AddPersonFragment : BaseFragment<FragmentAddPersonBinding>() {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
             })
             .addToDisposables()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 }

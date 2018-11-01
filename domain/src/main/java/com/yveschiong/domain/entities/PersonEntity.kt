@@ -22,6 +22,9 @@ data class PersonEntity(
     @ColumnInfo(name = "lastName")
     var lastName: String,
 
+    @ColumnInfo(name = "license")
+    var license: String,
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int = 0

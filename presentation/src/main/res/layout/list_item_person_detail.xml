@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.yveschiong.personalrecordbook.common.listeners.OnAdapterViewClicked" />
+
+        <variable
+            name="detail"
+            type="com.yveschiong.personalrecordbook.entities.PersonDetail" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/person_detail_record_item_color"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{() -> listener.onClicked(detail)}">
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingTop="@dimen/person_detail_record_item_text_padding"
+            android:paddingBottom="@dimen/person_detail_record_item_text_padding"
+            android:singleLine="true"
+            android:text="@{detail.getDate()}"
+            android:textColor="@color/person_detail_record_item_text_color"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/timeLabel"
+            tools:text="@string/record_date" />
+
+        <TextView
+            android:id="@+id/timeLabel"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{detail.getTime()}"
+            android:textColor="@color/person_detail_record_item_text_color"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
+            app:layout_constraintLeft_toRightOf="@+id/date"
+            app:layout_constraintRight_toLeftOf="@id/durationLabel"
+            app:layout_constraintTop_toTopOf="@+id/date"
+            tools:text="@string/record_time" />
+
+        <TextView
+            android:id="@+id/durationLabel"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{String.valueOf(detail.duration)}"
+            android:textColor="@color/person_detail_record_item_text_color"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
+            app:layout_constraintLeft_toRightOf="@+id/timeLabel"
+            app:layout_constraintRight_toLeftOf="@id/signatureLabel"
+            app:layout_constraintTop_toTopOf="@+id/date"
+            tools:text="@string/record_duration" />
+
+        <TextView
+            android:id="@+id/signatureLabel"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{detail.signature}"
+            android:textColor="@color/person_detail_record_item_text_color"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
+            app:layout_constraintLeft_toRightOf="@+id/durationLabel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/date"
+            tools:text="@string/record_signature" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

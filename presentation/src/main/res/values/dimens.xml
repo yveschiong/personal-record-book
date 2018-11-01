@@ -9,4 +9,10 @@
     <dimen name="list_item_margin">10dp</dimen>
 
     <dimen name="add_person_page_padding">10dp</dimen>
+    <dimen name="person_detail_page_padding">10dp</dimen>
+    <dimen name="person_detail_page_label_value_spacing">10dp</dimen>
+
+    <dimen name="person_detail_record_header_text_padding">5dp</dimen>
+    <dimen name="person_detail_record_empty_list_text_padding">10dp</dimen>
+    <dimen name="person_detail_record_item_text_padding">5dp</dimen>
 </resources>

@@ -6,6 +6,9 @@ import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragment
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragmentModule
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragmentModule
+import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
+import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragment
+import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragmentModule
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,10 +25,16 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindAddPersonActivity(): AddPersonActivity
 
+    @ContributesAndroidInjector
+    abstract fun bindPersonDetailActivity(): PersonDetailActivity
+
     // Fragments
     @ContributesAndroidInjector(modules = [PeopleFragmentModule::class])
     abstract fun bindPeopleFragment(): PeopleFragment
 
     @ContributesAndroidInjector(modules = [AddPersonFragmentModule::class])
     abstract fun bindAddPersonFragment(): AddPersonFragment
+
+    @ContributesAndroidInjector(modules = [PersonDetailFragmentModule::class])
+    abstract fun bindPersonDetailFragment(): PersonDetailFragment
 }

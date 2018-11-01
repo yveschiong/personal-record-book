@@ -18,5 +18,15 @@
     <string name="first_name">First Name</string>
     <string name="middle_name">Middle Name</string>
     <string name="last_name">Last Name</string>
+    <string name="license">Driver\'s License #</string>
+
+    <string name="license_label">Driver\'s License #: </string>
+
+    <string name="record_date">Date</string>
+    <string name="record_time">Time</string>
+    <string name="record_duration">Duration</string>
+    <string name="record_signature">Signature</string>
+
+    <string name="no_person_details">No records yet. Please add a record!</string>
 
 </resources>

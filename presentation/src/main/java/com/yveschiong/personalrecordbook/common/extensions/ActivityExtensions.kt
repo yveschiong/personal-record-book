@@ -9,6 +9,10 @@ fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment, tag:
     supportFragmentManager.inTransaction { replace(containerId, fragment, tag) }
 }
 
+fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment) {
+    supportFragmentManager.inTransaction { replace(containerId, fragment) }
+}
+
 fun AppCompatActivity.launchActivityForResult(clazz: Class<out BaseActivity>, requestCode: Int) {
     startActivityForResult(Intent(this, clazz), requestCode)
 }

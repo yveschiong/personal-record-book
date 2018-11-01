@@ -21,7 +21,7 @@ class AddPersonActivity : BaseActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_person)
         if (savedInstanceState == null) {
-            replaceFragment(R.id.container, AddPersonFragment.newInstance(), "")
+            replaceFragment(R.id.container, AddPersonFragment.newInstance())
         }
     }
 

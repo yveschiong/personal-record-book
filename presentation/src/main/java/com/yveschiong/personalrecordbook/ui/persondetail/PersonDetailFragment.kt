@@ -1,8 +1,7 @@
-package com.yveschiong.personalrecordbook.ui.people
+package com.yveschiong.personalrecordbook.ui.persondetail
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -11,33 +10,32 @@ import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
 import com.yveschiong.personalrecordbook.common.listeners.OnAdapterViewClicked
-import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
-import com.yveschiong.personalrecordbook.databinding.FragmentPeopleBinding
-import com.yveschiong.personalrecordbook.entities.Person
-import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
+import com.yveschiong.personalrecordbook.databinding.FragmentPersonDetailBinding
+import com.yveschiong.personalrecordbook.entities.PersonDetail
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.list_person_details.view.*
 import javax.inject.Inject
 
-class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
+class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>() {
 
     @Inject
-    lateinit var viewModelFactory: PeopleViewModelFactory
+    lateinit var viewModelFactory: PersonDetailViewModelFactory
 
-    lateinit var viewModel: PeopleViewModel
+    lateinit var viewModel: PersonDetailViewModel
 
-    lateinit var adapter: PeopleAdapter
+    lateinit var adapter: PeopleDetailsAdapter
 
     companion object {
 
-        fun newInstance(): PeopleFragment {
-            return PeopleFragment()
+        fun newInstance(): PersonDetailFragment {
+            return PersonDetailFragment()
         }
     }
 
     override val layoutId: Int
-        get() = R.layout.fragment_people
+        get() = R.layout.fragment_person_detail
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -46,8 +44,9 @@ class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PeopleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonDetailViewModel::class.java)
         binding.vm = viewModel
+        binding.person = arguments?.getParcelable(Constants.EXTRA_PERSON)
 
         viewModel.result
             .subscribeOn(Schedulers.io())
@@ -61,32 +60,24 @@ class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
 
         if (savedInstanceState == null) {
             // We want to make a fetch the very first time the activity has been created
-            refresh()
+            binding.person?.id?.let {
+                viewModel.fetch(it)
+            }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PeopleAdapter(object : OnAdapterViewClicked<Person> {
-            override fun onClicked(data: Person) {
-                showPeopleDetailActivity(data)
+        adapter = PeopleDetailsAdapter(object : OnAdapterViewClicked<PersonDetail> {
+            override fun onClicked(data: PersonDetail) {
+
             }
         })
 
-        binding.recyclerView.setEmptyView(binding.emptyView)
+        binding.listPersonDetails.recyclerView.setEmptyView(binding.listPersonDetails.emptyView)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = adapter
-    }
-
-    private fun showPeopleDetailActivity(person: Person) {
-        val intent = Intent(context, PersonDetailActivity::class.java)
-        intent.putExtra(Constants.EXTRA_PERSON, person)
-        startActivity(intent)
-    }
-
-    override fun refresh() {
-        viewModel.fetch()
+        binding.listPersonDetails.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.listPersonDetails.recyclerView.adapter = adapter
     }
 }

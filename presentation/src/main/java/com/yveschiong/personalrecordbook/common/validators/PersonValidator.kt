@@ -19,4 +19,12 @@ class PersonValidator @Inject constructor() {
 
         return true
     }
+
+    fun checkLicense(data: Person): Boolean {
+        if (data.license.isEmpty()) {
+            return false
+        }
+
+        return true
+    }
 }

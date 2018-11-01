@@ -16,7 +16,7 @@ class AddPersonViewModel(
     private val mapper: Mapper<Person, PersonEntity>) :
     BaseViewModel() {
 
-    var person: Person = Person("", "", "")
+    var person: Person = Person("", "", "", "")
 
     var result: PublishSubject<Long> = PublishSubject.create()
 
@@ -32,12 +32,20 @@ class AddPersonViewModel(
         person.lastName = value
     }
 
+    fun setLicense(value: String) {
+        person.license = value
+    }
+
     fun clicked() {
         if (!validator.checkFirstName(person)) {
             return
         }
 
         if (!validator.checkLastName(person)) {
+            return
+        }
+
+        if (!validator.checkLicense(person)) {
             return
         }
 

@@ -11,7 +11,7 @@ class PersonEntityMapper @Inject
 constructor() : Mapper<Person, PersonEntity>() {
     override fun mapFrom(from: Person): PersonEntity {
         return PersonEntity(
-            from.firstName, from.middleName, from.lastName, from.id
+            from.firstName, from.middleName, from.lastName, from.license, from.id
         )
     }
 }
