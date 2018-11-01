@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.yveschiong.personalrecordbook.common.OnAdapterViewClicked" />
+            type="com.yveschiong.personalrecordbook.common.listeners.OnAdapterViewClicked" />
 
         <variable
             name="person"
@@ -16,23 +16,23 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/listItemMargin"
-        android:layout_marginTop="@dimen/listItemMargin"
-        android:layout_marginRight="@dimen/listItemMargin"
+        android:layout_marginLeft="@dimen/list_item_margin"
+        android:layout_marginTop="@dimen/list_item_margin"
+        android:layout_marginRight="@dimen/list_item_margin"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> listener.onClicked(person)}">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/listItemMargin">
+            android:layout_margin="@dimen/list_item_margin">
 
             <TextView
                 android:id="@+id/name"
                 style="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/full_name(person.firstName, person.middleName, person.lastName)}"
+                android:text="@{person.middleName.isEmpty() ? @string/full_name(person.firstName, person.lastName) : @string/extended_name(person.firstName, person.middleName, person.lastName)}"
                 android:textColor="@color/colorPrimary"
                 tools:text="Yves Chun-Yu Chiong" />
 

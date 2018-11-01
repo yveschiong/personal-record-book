@@ -1,4 +1,4 @@
-package com.yveschiong.personalrecordbook.common
+package com.yveschiong.personalrecordbook.common.base
 
 import android.support.v7.app.AppCompatActivity
 

@@ -5,22 +5,26 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.yveschiong.personalrecordbook.R
-import com.yveschiong.personalrecordbook.common.BaseFragment
-import com.yveschiong.personalrecordbook.common.OnAdapterViewClicked
-import com.yveschiong.personalrecordbook.databinding.PeopleFragmentBinding
+import com.yveschiong.personalrecordbook.common.base.BaseFragment
+import com.yveschiong.personalrecordbook.common.listeners.OnAdapterViewClicked
+import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
+import com.yveschiong.personalrecordbook.databinding.FragmentPeopleBinding
 import com.yveschiong.personalrecordbook.entities.Person
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PeopleFragment : BaseFragment<PeopleFragmentBinding>() {
+class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
 
     @Inject
     lateinit var viewModelFactory: PeopleViewModelFactory
 
-    private var viewModel: PeopleViewModel? = null
+    lateinit var viewModel: PeopleViewModel
 
-    private var adapter: PeopleAdapter? = null
+    lateinit var adapter: PeopleAdapter
 
     companion object {
 
@@ -30,7 +34,7 @@ class PeopleFragment : BaseFragment<PeopleFragmentBinding>() {
     }
 
     override val layoutId: Int
-        get() = R.layout.people_fragment
+        get() = R.layout.fragment_people
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -41,6 +45,21 @@ class PeopleFragment : BaseFragment<PeopleFragmentBinding>() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PeopleViewModel::class.java)
         binding.vm = viewModel
+
+        viewModel.result
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                adapter.setData(it)
+            }, {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+            })
+            .addToDisposables()
+
+        if (savedInstanceState == null) {
+            // We want to make a fetch the very first time the activity has been created
+            refresh()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +67,7 @@ class PeopleFragment : BaseFragment<PeopleFragmentBinding>() {
 
         adapter = PeopleAdapter(object : OnAdapterViewClicked<Person> {
             override fun onClicked(data: Person) {
-                TODO("not implemented")
+                // Do nothing for now.
             }
         })
 
@@ -56,5 +75,9 @@ class PeopleFragment : BaseFragment<PeopleFragmentBinding>() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+    }
+
+    override fun refresh() {
+        viewModel.fetch()
     }
 }

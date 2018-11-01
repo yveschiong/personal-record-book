@@ -1,17 +1,19 @@
 package com.yveschiong.personalrecordbook
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-import com.yveschiong.personalrecordbook.common.BaseActivity
+import com.yveschiong.personalrecordbook.common.base.BaseActivity
 import com.yveschiong.personalrecordbook.common.extensions.replaceFragment
+import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
+import com.yveschiong.personalrecordbook.ui.addperson.AddPersonActivity
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -70,10 +72,18 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val frag = supportFragmentManager.findFragmentById(R.id.fragment) as? Refreshable ?: return
+        frag.refresh()
+    }
+
     private fun setupFab(fab: FloatingActionButton) {
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fab.setOnClickListener {
+            when (getCurrentNavId()) {
+                R.id.nav_people -> {
+                    startActivityForResult(Intent(this, AddPersonActivity::class.java), 0)
+                }
+            }
         }
     }
 
@@ -94,12 +104,16 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun setNavigation(id: Int) {
         when (id) {
             R.id.nav_people -> {
-                replaceFragment(R.id.fragment, PeopleFragment.newInstance())
+                replaceFragment(R.id.fragment, PeopleFragment.newInstance(), id.toString())
             }
             else -> return
         }
 
         nav_view.setCheckedItem(id)
+    }
+
+    private fun getCurrentNavId(): Int? {
+        return supportFragmentManager.findFragmentById(R.id.fragment)?.tag?.toInt()
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

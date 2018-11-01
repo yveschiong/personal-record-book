@@ -3,4 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="add_button_background_color">#00897B</color>
+    <color name="add_button_text_color">#FFFFFF</color>
+
+    <color name="edit_button_background_color">#1E88E5</color>
+    <color name="edit_button_text_color">#FFFFFF</color>
+
+    <color name="delete_button_background_color">#E53935</color>
+    <color name="delete_button_text_color">#FFFFFF</color>
+
+    <color name="text_color_error">#FF0000</color>
 </resources>

@@ -6,4 +6,5 @@ import io.reactivex.Single
 
 interface DataSource {
     fun getPeople(): Single<List<PersonData>>
+    fun addPerson(person: PersonEntity): Single<Long>
 }

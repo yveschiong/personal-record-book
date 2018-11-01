@@ -10,7 +10,7 @@ interface PeopleDao {
     fun getPeople(): Single<List<PersonEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(person: PersonEntity)
+    fun insert(person: PersonEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(person: PersonEntity)

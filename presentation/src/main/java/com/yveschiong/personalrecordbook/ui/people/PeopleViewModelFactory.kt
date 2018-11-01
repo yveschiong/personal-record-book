@@ -7,12 +7,12 @@ import com.yveschiong.domain.entities.PersonEntity
 import com.yveschiong.domain.usecases.GetPeople
 import com.yveschiong.personalrecordbook.entities.Person
 
-class PeopleViewModelFactory(private val getPeople: GetPeople, private val mapper: Mapper<PersonEntity, Person>) :
+class PeopleViewModelFactory(private val useCase: GetPeople, private val mapper: Mapper<PersonEntity, Person>) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PeopleViewModel::class.java)) {
-            return PeopleViewModel(getPeople, mapper) as T
+            return PeopleViewModel(useCase, mapper) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

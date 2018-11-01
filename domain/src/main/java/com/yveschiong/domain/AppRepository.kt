@@ -5,4 +5,5 @@ import io.reactivex.Single
 
 interface AppRepository {
     fun getPeople(): Single<List<PersonEntity>>
+    fun addPerson(person: PersonEntity): Single<Long>
 }

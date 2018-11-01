@@ -1,4 +1,4 @@
-package com.yveschiong.personalrecordbook.common
+package com.yveschiong.personalrecordbook.common.base
 
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView

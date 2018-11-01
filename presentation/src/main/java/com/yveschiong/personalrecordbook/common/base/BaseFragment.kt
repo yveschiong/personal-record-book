@@ -1,4 +1,4 @@
-package com.yveschiong.personalrecordbook.common
+package com.yveschiong.personalrecordbook.common.base
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -15,14 +15,10 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     protected lateinit var binding: T
 
-    protected val disposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
     @get:LayoutRes
     abstract val layoutId: Int
-
-    protected fun addDisposable(disposable: Disposable) {
-        disposables.add(disposable)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,5 +31,9 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         disposables.clear()
+    }
+
+    protected fun Disposable.addToDisposables() {
+        disposables.add(this)
     }
 }

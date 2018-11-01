@@ -17,4 +17,8 @@ class DataRepository @Inject constructor(
         // since we don't have a remote one
         return localDataSource.getPeople().map { personMapper.mapFrom(it) }
     }
+
+    override fun addPerson(person: PersonEntity): Single<Long> {
+        return localDataSource.addPerson(person)
+    }
 }

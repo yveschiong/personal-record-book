@@ -14,4 +14,8 @@ class LocalDataSource @Inject constructor(
     override fun getPeople(): Single<List<PersonData>> {
         return dao.getPeople().map { mapper.mapFrom(it) }
     }
+
+    override fun addPerson(person: PersonEntity): Single<Long> {
+        return Single.fromCallable { dao.insert(person) }
+    }
 }
