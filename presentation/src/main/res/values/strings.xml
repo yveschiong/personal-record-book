@@ -29,4 +29,11 @@
 
     <string name="no_person_details">No records yet. Please add a record!</string>
 
+    <string name="add_new_person_detail_label">Add a New Record</string>
+    <string name="add_new_person_detail_button_text">Add Record</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
+    <string name="signature">Signature</string>
+
 </resources>

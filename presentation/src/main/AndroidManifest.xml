@@ -27,7 +27,12 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ui.persondetail.PersonDetailActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ui.addpersondetail.AddPersonDetailActivity"
+            android:label="@string/add_new_person_detail_label"
+            android:parentActivityName=".ui.persondetail.PersonDetailActivity" />
     </application>
 
 </manifest>

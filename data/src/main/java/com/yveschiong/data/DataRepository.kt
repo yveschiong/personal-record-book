@@ -28,4 +28,8 @@ class DataRepository @Inject constructor(
     override fun getPersonDetails(personId: Int): Single<List<PersonDetailEntity>> {
         return localDataSource.getPersonDetails(personId).map { personDetailMapper.mapFrom(it) }
     }
+
+    override fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long> {
+        return localDataSource.addPersonDetail(personDetail)
+    }
 }

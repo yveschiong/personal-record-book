@@ -15,8 +15,8 @@
 
     <color name="text_color_error">#FF0000</color>
 
-    <color name="person_detail_record_header">#008577</color>
+    <color name="person_detail_record_header">#D81B60</color>
     <color name="person_detail_record_header_text_color">#FFFFFF</color>
-    <color name="person_detail_record_item_color">#EEEEEE</color>
+    <color name="person_detail_record_item_color">#E0E0E0</color>
     <color name="person_detail_record_item_text_color">#000000</color>
 </resources>

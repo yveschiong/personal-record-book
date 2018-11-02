@@ -3,6 +3,7 @@ package com.yveschiong.data.remote
 import com.yveschiong.data.DataSource
 import com.yveschiong.data.entities.PersonData
 import com.yveschiong.data.entities.PersonDetailData
+import com.yveschiong.domain.entities.PersonDetailEntity
 import com.yveschiong.domain.entities.PersonEntity
 import io.reactivex.Single
 import javax.inject.Inject
@@ -17,6 +18,10 @@ class RemoteDataSource @Inject constructor() : DataSource {
     }
 
     override fun getPersonDetails(personId: Int): Single<List<PersonDetailData>> {
+        TODO("not implemented")
+    }
+
+    override fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long> {
         TODO("not implemented")
     }
 }

@@ -36,7 +36,7 @@ class AddPersonViewModel(
         person.license = value
     }
 
-    fun clicked() {
+    fun addButtonClicked() {
         if (!validator.checkFirstName(person)) {
             return
         }

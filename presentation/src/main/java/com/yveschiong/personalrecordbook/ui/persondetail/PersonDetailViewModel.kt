@@ -4,6 +4,7 @@ import com.yveschiong.domain.common.Mapper
 import com.yveschiong.domain.entities.PersonDetailEntity
 import com.yveschiong.domain.usecases.GetPersonDetails
 import com.yveschiong.personalrecordbook.common.base.BaseViewModel
+import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.entities.PersonDetail
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,6 +16,7 @@ class PersonDetailViewModel(
     BaseViewModel() {
 
     var result: PublishSubject<List<PersonDetail>> = PublishSubject.create()
+    var clicked: PublishSubject<Person> = PublishSubject.create()
 
     fun fetch(personId: Int) {
         useCase.get(personId)
@@ -26,5 +28,9 @@ class PersonDetailViewModel(
                 result.onError(it)
             })
             .addToDisposables()
+    }
+
+    fun onFabClicked(person: Person) {
+        clicked.onNext(person)
     }
 }

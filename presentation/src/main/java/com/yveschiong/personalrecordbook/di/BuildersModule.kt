@@ -4,6 +4,9 @@ import com.yveschiong.personalrecordbook.MainActivity
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonActivity
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragment
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragmentModule
+import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivity
+import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragment
+import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragmentModule
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragmentModule
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
@@ -28,6 +31,9 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindPersonDetailActivity(): PersonDetailActivity
 
+    @ContributesAndroidInjector
+    abstract fun bindAddPersonDetailActivity(): AddPersonDetailActivity
+
     // Fragments
     @ContributesAndroidInjector(modules = [PeopleFragmentModule::class])
     abstract fun bindPeopleFragment(): PeopleFragment
@@ -37,4 +43,7 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector(modules = [PersonDetailFragmentModule::class])
     abstract fun bindPersonDetailFragment(): PersonDetailFragment
+
+    @ContributesAndroidInjector(modules = [AddPersonDetailFragmentModule::class])
+    abstract fun bindAddPersonDetailFragment(): AddPersonDetailFragment
 }
