@@ -6,7 +6,7 @@ import com.yveschiong.domain.usecases.GetPersonDetails
 import com.yveschiong.personalrecordbook.common.base.BaseViewModel
 import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.entities.PersonDetail
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
@@ -20,14 +20,11 @@ class PersonDetailViewModel(
 
     fun fetch(personId: Int) {
         useCase.get(personId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.onNext(mapper.mapFrom(it))
-            }, {
-                result.onError(it)
-            })
-            .addToDisposables()
+            .observeOn(Schedulers.io())
+            .flatMap {
+                Single.just(mapper.mapFrom(it))
+            }
+            .simpleSubscribe(result)
     }
 
     fun onFabClicked(person: Person) {

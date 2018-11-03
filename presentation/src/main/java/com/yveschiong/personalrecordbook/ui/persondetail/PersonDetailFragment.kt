@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
@@ -17,8 +16,6 @@ import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.entities.PersonDetail
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivity
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.list_person_details.view.*
 import javax.inject.Inject
 
@@ -52,25 +49,8 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
         binding.vm = viewModel
         binding.person = arguments?.getParcelable(Constants.EXTRA_PERSON)
 
-        viewModel.result
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                adapter.setData(it)
-            }, {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-            })
-            .addToDisposables()
-
-        viewModel.clicked
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                showAddPeopleDetailActivity(it)
-            }, {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-            })
-            .addToDisposables()
+        viewModel.result.simpleSubscribe{ adapter.setData(it) }
+        viewModel.clicked.simpleSubscribe{ showAddPeopleDetailActivity(it) }
 
         if (savedInstanceState == null) {
             // We want to make a fetch the very first time the activity has been created

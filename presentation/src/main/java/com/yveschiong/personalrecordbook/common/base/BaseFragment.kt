@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.yveschiong.personalrecordbook.common.extensions.defaultThreads
+import com.yveschiong.personalrecordbook.common.extensions.toast
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -25,6 +28,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        binding.setLifecycleOwner(this)
         return binding.root
     }
 
@@ -35,5 +39,13 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     protected fun Disposable.addToDisposables() {
         disposables.add(this)
+    }
+
+    protected fun <V, T : Observable<V>> T.simpleSubscribe(func: (V) -> Unit) {
+        simpleSubscribe(func, { context?.toast(it) })
+    }
+
+    protected fun <V, T : Observable<V>> T.simpleSubscribe(func: (V) -> Unit, error: (Throwable) -> Unit) {
+        defaultThreads().subscribe(func, error).addToDisposables()
     }
 }

@@ -1,7 +1,7 @@
 package com.yveschiong.personalrecordbook.entities
 
 import android.os.Parcelable
-import com.yveschiong.personalrecordbook.common.extensions.getDate
+import com.yveschiong.personalrecordbook.common.extensions.getShortDate
 import com.yveschiong.personalrecordbook.common.extensions.getTime
 import kotlinx.android.parcel.Parcelize
 
@@ -14,7 +14,7 @@ data class PersonDetail(
     var id: Int = 0
 ) : Parcelable {
     fun getDate(): String {
-        return timestamp.getDate()
+        return timestamp.getShortDate()
     }
 
     fun getTime(): String {

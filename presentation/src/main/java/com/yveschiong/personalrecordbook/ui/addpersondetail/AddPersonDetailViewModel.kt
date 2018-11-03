@@ -1,14 +1,17 @@
 package com.yveschiong.personalrecordbook.ui.addpersondetail
 
+import android.arch.lifecycle.MutableLiveData
 import com.yveschiong.domain.common.Mapper
 import com.yveschiong.domain.entities.PersonDetailEntity
 import com.yveschiong.domain.usecases.AddPersonDetail
 import com.yveschiong.personalrecordbook.common.base.BaseViewModel
+import com.yveschiong.personalrecordbook.common.extensions.default
+import com.yveschiong.personalrecordbook.common.extensions.getDate
+import com.yveschiong.personalrecordbook.common.extensions.getTime
 import com.yveschiong.personalrecordbook.common.validators.PersonDetailValidator
 import com.yveschiong.personalrecordbook.entities.PersonDetail
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.util.*
 
 class AddPersonDetailViewModel(
     private val validator: PersonDetailValidator,
@@ -18,29 +21,62 @@ class AddPersonDetailViewModel(
 
     var personDetail = PersonDetail(0, 0.0f, "", 0)
 
+    var clickedDate: PublishSubject<Unit> = PublishSubject.create()
+    var clickedTime: PublishSubject<Unit> = PublishSubject.create()
     var result: PublishSubject<Long> = PublishSubject.create()
 
-    var detailDate: Long = 0
-    var detailTime: Long = 0
+    private val currentTimestamp = Calendar.getInstance().timeInMillis
 
-    fun setDate(value: String) {
-        detailDate = value.toLong()
+    val date = MutableLiveData<String>().default(currentTimestamp.getDate())
+    val time = MutableLiveData<String>().default(currentTimestamp.getTime())
+
+    var dateTimestamp: Long = currentTimestamp
+    var timeTimestamp: Long = currentTimestamp
+
+    fun setDate(value: Long) {
+        dateTimestamp = value
+        date.value = value.getDate()
     }
 
-    fun setTime(value: String) {
-        detailTime = value.toLong()
+    fun setTime(value: Long) {
+        timeTimestamp = value
+        time.value = value.getTime()
     }
 
     fun setDuration(value: String) {
-        personDetail.duration = value.toFloat()
+        try {
+            personDetail.duration = value.toFloat()
+        } catch (exception: NumberFormatException) {
+            // Pass through
+        }
+    }
+
+    fun setTimestamp(dateTimestamp: Long, timeTimestamp: Long) {
+        val time = Calendar.getInstance()
+        time.timeInMillis = timeTimestamp
+
+        val date = Calendar.getInstance()
+        date.timeInMillis = dateTimestamp
+        date.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY))
+        date.set(Calendar.MINUTE, time.get(Calendar.MINUTE))
+
+        personDetail.timestamp = date.timeInMillis
     }
 
     fun setSignature(value: String) {
         personDetail.signature = value
     }
 
+    fun dateButtonClicked() {
+        clickedDate.onNext(Unit)
+    }
+
+    fun timeButtonClicked() {
+        clickedTime.onNext(Unit)
+    }
+
     fun addButtonClicked() {
-        personDetail.timestamp = detailDate + detailTime
+        setTimestamp(dateTimestamp, timeTimestamp)
 
         if (!validator.checkTimestamp(personDetail)) {
             return
@@ -58,14 +94,6 @@ class AddPersonDetailViewModel(
             return
         }
 
-        useCase.add(mapper.mapFrom(personDetail))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                result.onNext(it)
-            }, {
-                result.onError(it)
-            })
-            .addToDisposables()
+        useCase.add(mapper.mapFrom(personDetail)).simpleSubscribe(result)
     }
 }

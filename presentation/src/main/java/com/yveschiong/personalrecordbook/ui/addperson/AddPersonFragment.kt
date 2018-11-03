@@ -3,13 +3,10 @@ package com.yveschiong.personalrecordbook.ui.addperson
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
 import com.yveschiong.personalrecordbook.databinding.FragmentAddPersonBinding
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class AddPersonFragment : BaseFragment<FragmentAddPersonBinding>() {
@@ -39,14 +36,6 @@ class AddPersonFragment : BaseFragment<FragmentAddPersonBinding>() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddPersonViewModel::class.java)
         binding.vm = viewModel
 
-        viewModel.result
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                activity?.finish()
-            }, {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-            })
-            .addToDisposables()
+        viewModel.result.simpleSubscribe{ activity?.finish() }
     }
 }

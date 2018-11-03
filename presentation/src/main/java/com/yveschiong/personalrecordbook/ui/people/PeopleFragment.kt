@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
@@ -16,8 +15,6 @@ import com.yveschiong.personalrecordbook.databinding.FragmentPeopleBinding
 import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
@@ -49,15 +46,7 @@ class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PeopleViewModel::class.java)
         binding.vm = viewModel
 
-        viewModel.result
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                adapter.setData(it)
-            }, {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-            })
-            .addToDisposables()
+        viewModel.result.simpleSubscribe{ adapter.setData(it) }
 
         if (savedInstanceState == null) {
             // We want to make a fetch the very first time the activity has been created
