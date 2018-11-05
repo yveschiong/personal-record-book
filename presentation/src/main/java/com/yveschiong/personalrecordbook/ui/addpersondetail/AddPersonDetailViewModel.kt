@@ -19,7 +19,7 @@ class AddPersonDetailViewModel(
     private val mapper: Mapper<PersonDetail, PersonDetailEntity>) :
     BaseViewModel() {
 
-    var personDetail = PersonDetail(0, 0.0f, "", 0)
+    private var personDetail = PersonDetail()
 
     var clickedDate: PublishSubject<Unit> = PublishSubject.create()
     var clickedTime: PublishSubject<Unit> = PublishSubject.create()
@@ -30,8 +30,8 @@ class AddPersonDetailViewModel(
     val date = MutableLiveData<String>().default(currentTimestamp.getDate())
     val time = MutableLiveData<String>().default(currentTimestamp.getTime())
 
-    var dateTimestamp: Long = currentTimestamp
-    var timeTimestamp: Long = currentTimestamp
+    var dateTimestamp = currentTimestamp
+    var timeTimestamp = currentTimestamp
 
     fun setDate(value: Long) {
         dateTimestamp = value
@@ -65,6 +65,10 @@ class AddPersonDetailViewModel(
 
     fun setSignature(value: String) {
         personDetail.signature = value
+    }
+
+    fun setPersonId(value: Int) {
+        personDetail.personId = value
     }
 
     fun dateButtonClicked() {

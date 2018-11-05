@@ -44,7 +44,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         binding.vm = viewModel
 
         arguments?.getParcelable<Person>(Constants.EXTRA_PERSON)?.let {
-            viewModel.personDetail.personId = it.id
+            viewModel.setPersonId(it.id)
         }
 
         viewModel.result.simpleSubscribe{ activity?.finish() }

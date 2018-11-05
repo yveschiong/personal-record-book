@@ -38,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/first_name"
-                        android:text="@={vm.person.getValue().firstName}" />
+                        android:text="@={vm.firstName}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -56,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/middle_name"
-                        android:text="@={vm.person.getValue().middleName}" />
+                        android:text="@={vm.middleName}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/last_name"
-                        android:text="@={vm.person.getValue().lastName}" />
+                        android:text="@={vm.lastName}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/license"
-                        android:text="@={vm.person.getValue().license}" />
+                        android:text="@={vm.license}" />
 
                 </android.support.design.widget.TextInputLayout>
 
