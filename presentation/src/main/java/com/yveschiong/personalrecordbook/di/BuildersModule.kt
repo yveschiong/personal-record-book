@@ -12,6 +12,9 @@ import com.yveschiong.personalrecordbook.ui.people.PeopleFragmentModule
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragment
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragmentModule
+import com.yveschiong.personalrecordbook.ui.signature.SignatureActivity
+import com.yveschiong.personalrecordbook.ui.signature.SignatureFragment
+import com.yveschiong.personalrecordbook.ui.signature.SignatureFragmentModule
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -34,6 +37,9 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindAddPersonDetailActivity(): AddPersonDetailActivity
 
+    @ContributesAndroidInjector
+    abstract fun bindSignatureActivity(): SignatureActivity
+
     // Fragments
     @ContributesAndroidInjector(modules = [PeopleFragmentModule::class])
     abstract fun bindPeopleFragment(): PeopleFragment
@@ -46,4 +52,7 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector(modules = [AddPersonDetailFragmentModule::class])
     abstract fun bindAddPersonDetailFragment(): AddPersonDetailFragment
+
+    @ContributesAndroidInjector(modules = [SignatureFragmentModule::class])
+    abstract fun bindSignatureFragment(): SignatureFragment
 }

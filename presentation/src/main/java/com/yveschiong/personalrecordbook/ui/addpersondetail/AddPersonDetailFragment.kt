@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.TimePicker
@@ -12,6 +13,7 @@ import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
 import com.yveschiong.personalrecordbook.databinding.FragmentAddPersonDetailBinding
 import com.yveschiong.personalrecordbook.entities.Person
+import com.yveschiong.personalrecordbook.ui.signature.SignatureActivity
 import dagger.android.support.AndroidSupportInjection
 import java.util.*
 import javax.inject.Inject
@@ -50,6 +52,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         viewModel.result.simpleSubscribe{ activity?.finish() }
         viewModel.clickedDate.simpleSubscribe { showDatePicker() }
         viewModel.clickedTime.simpleSubscribe { showTimePicker() }
+        viewModel.clickedSignature.simpleSubscribe { showSignatureActivity() }
     }
 
     private fun showDatePicker() {
@@ -80,5 +83,10 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
             date.set(Calendar.MINUTE, minute)
             viewModel.setTime(date.timeInMillis)
         }, date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), false).show()
+    }
+
+    private fun showSignatureActivity() {
+        val intent = Intent(context, SignatureActivity::class.java)
+        startActivity(intent)
     }
 }

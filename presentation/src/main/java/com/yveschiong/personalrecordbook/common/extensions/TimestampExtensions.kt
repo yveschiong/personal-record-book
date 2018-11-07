@@ -8,7 +8,7 @@ fun Long.getShortDate(): String {
 }
 
 fun Long.getDate(): String {
-    return SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault()).format(Date(this))
+    return SimpleDateFormat("EEE, MMMM d, yyyy", Locale.getDefault()).format(Date(this))
 }
 
 fun Long.getTime(): String {

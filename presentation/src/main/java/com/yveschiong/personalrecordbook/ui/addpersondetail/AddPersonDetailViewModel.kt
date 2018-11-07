@@ -23,6 +23,7 @@ class AddPersonDetailViewModel(
 
     var clickedDate: PublishSubject<Unit> = PublishSubject.create()
     var clickedTime: PublishSubject<Unit> = PublishSubject.create()
+    var clickedSignature: PublishSubject<Unit> = PublishSubject.create()
     var result: PublishSubject<Long> = PublishSubject.create()
 
     private val currentTimestamp = Calendar.getInstance().timeInMillis
@@ -63,10 +64,6 @@ class AddPersonDetailViewModel(
         personDetail.timestamp = date.timeInMillis
     }
 
-    fun setSignature(value: String) {
-        personDetail.signature = value
-    }
-
     fun setPersonId(value: Int) {
         personDetail.personId = value
     }
@@ -77,6 +74,10 @@ class AddPersonDetailViewModel(
 
     fun timeButtonClicked() {
         clickedTime.onNext(Unit)
+    }
+
+    fun signatureButtonClicked() {
+        clickedSignature.onNext(Unit)
     }
 
     fun addButtonClicked() {
