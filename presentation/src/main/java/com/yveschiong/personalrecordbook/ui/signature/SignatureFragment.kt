@@ -2,10 +2,12 @@ package com.yveschiong.personalrecordbook.ui.signature
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
+import com.yveschiong.personalrecordbook.common.extensions.showSavingSignatureProgressDialog
 import com.yveschiong.personalrecordbook.databinding.FragmentSignatureBinding
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_signature.*
@@ -47,5 +49,15 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         }
 
         val bitmap = signaturePad.transparentSignatureBitmap
+
+        val dialog = showSavingSignatureProgressDialog()
+
+        // Only for testing right now
+        AsyncTask.execute {
+            Thread.sleep(2000)
+            activity?.runOnUiThread {
+                dialog.cancel()
+            }
+        }
     }
 }

@@ -41,4 +41,6 @@
     <string name="save_signature">Save Signature</string>
     <string name="clear_signature">Clear Signature</string>
 
+    <string name="saving_signature_loading_message">Saving Signature. Please wait&#8230;</string>
+
 </resources>
