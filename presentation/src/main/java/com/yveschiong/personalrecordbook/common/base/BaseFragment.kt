@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.yveschiong.personalrecordbook.common.extensions.defaultThreads
 import com.yveschiong.personalrecordbook.common.extensions.toast
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -46,6 +47,14 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     }
 
     protected fun <V, T : Observable<V>> T.simpleSubscribe(func: (V) -> Unit, error: (Throwable) -> Unit) {
+        defaultThreads().subscribe(func, error).addToDisposables()
+    }
+
+    protected fun <V, T : Single<V>> T.simpleSubscribe(func: (V) -> Unit) {
+        simpleSubscribe(func, { context?.toast(it) })
+    }
+
+    protected fun <V, T : Single<V>> T.simpleSubscribe(func: (V) -> Unit, error: (Throwable) -> Unit) {
         defaultThreads().subscribe(func, error).addToDisposables()
     }
 }

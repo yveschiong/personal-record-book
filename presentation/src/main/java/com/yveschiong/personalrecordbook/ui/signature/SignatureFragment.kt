@@ -1,24 +1,34 @@
 package com.yveschiong.personalrecordbook.ui.signature
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.os.AsyncTask
+import android.content.Intent
 import android.os.Bundle
 import com.github.gcacace.signaturepad.views.SignaturePad
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.R
+import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
 import com.yveschiong.personalrecordbook.common.extensions.showSavingSignatureProgressDialog
 import com.yveschiong.personalrecordbook.databinding.FragmentSignatureBinding
+import com.yveschiong.personalrecordbook.entities.Person
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.fragment_signature.*
 import javax.inject.Inject
 
 class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
     @Inject
+    lateinit var internalStorageManager: InternalStorageManager
+
+    @Inject
     lateinit var viewModelFactory: SignatureViewModelFactory
 
     lateinit var viewModel: SignatureViewModel
+
+    var person: Person? = null
 
     companion object {
 
@@ -40,6 +50,8 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignatureViewModel::class.java)
         binding.vm = viewModel
 
+        person = arguments?.getParcelable(Constants.EXTRA_PERSON)
+
         viewModel.clickedSaveSignature.simpleSubscribe { saveSignature(signature_pad) }
     }
 
@@ -50,14 +62,22 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
         val bitmap = signaturePad.transparentSignatureBitmap
 
-        val dialog = showSavingSignatureProgressDialog()
+        person?.let {
+            val dialog = showSavingSignatureProgressDialog()
 
-        // Only for testing right now
-        AsyncTask.execute {
-            Thread.sleep(2000)
-            activity?.runOnUiThread {
-                dialog.cancel()
-            }
+            Single.fromCallable { internalStorageManager.saveSignature(it.id, bitmap) }
+                .simpleSubscribe { path ->
+                    dialog.cancel()
+
+                    setResultIntent(path)
+                    activity?.finish()
+                }
         }
+    }
+
+    private fun setResultIntent(path: String) {
+        val result = Intent()
+        result.putExtra(Constants.EXTRA_SIGNATURE_FILE_PATH, path)
+        activity?.setResult(Activity.RESULT_OK, result)
     }
 }

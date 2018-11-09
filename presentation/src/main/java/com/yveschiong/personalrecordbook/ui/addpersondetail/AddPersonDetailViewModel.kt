@@ -30,19 +30,25 @@ class AddPersonDetailViewModel(
 
     val date = MutableLiveData<String>().default(currentTimestamp.getDate())
     val time = MutableLiveData<String>().default(currentTimestamp.getTime())
+    val signaturePath = MutableLiveData<String>()
 
     var dateTimestamp = currentTimestamp
+        set(value) {
+            field = value
+            date.value = value.getDate()
+        }
+
     var timeTimestamp = currentTimestamp
+        set(value) {
+            field = value
+            time.value = value.getTime()
+        }
 
-    fun setDate(value: Long) {
-        dateTimestamp = value
-        date.value = value.getDate()
-    }
-
-    fun setTime(value: Long) {
-        timeTimestamp = value
-        time.value = value.getTime()
-    }
+    var personId: Int = 0
+        set(value) {
+            field = value
+            personDetail.personId = value
+        }
 
     fun setDuration(value: String) {
         try {
@@ -62,10 +68,6 @@ class AddPersonDetailViewModel(
         date.set(Calendar.MINUTE, time.get(Calendar.MINUTE))
 
         personDetail.timestamp = date.timeInMillis
-    }
-
-    fun setPersonId(value: Int) {
-        personDetail.personId = value
     }
 
     fun dateButtonClicked() {

@@ -14,6 +14,7 @@ ext {
     rxJavaVersion = "2.2.2"
     rxAndroidVersion = "2.1.0"
     rxKotlinVersion = "2.3.0"
+    glideVersion = "4.8.0"
 
     // Testing
     junitVersion = "4.12"

@@ -1,13 +1,16 @@
 package com.yveschiong.personalrecordbook.ui.addpersondetail
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.TimePicker
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
@@ -21,9 +24,14 @@ import javax.inject.Inject
 class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
 
     @Inject
+    lateinit var internalStorageManager: InternalStorageManager
+
+    @Inject
     lateinit var viewModelFactory: AddPersonDetailViewModelFactory
 
     lateinit var viewModel: AddPersonDetailViewModel
+
+    var person: Person? = null
 
     companion object {
 
@@ -44,15 +52,32 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddPersonDetailViewModel::class.java)
         binding.vm = viewModel
+        binding.signaturePath = ""
 
-        arguments?.getParcelable<Person>(Constants.EXTRA_PERSON)?.let {
-            viewModel.setPersonId(it.id)
+        person = arguments?.getParcelable(Constants.EXTRA_PERSON)
+        person?.let {
+            viewModel.personId = it.id
         }
 
         viewModel.result.simpleSubscribe{ activity?.finish() }
         viewModel.clickedDate.simpleSubscribe { showDatePicker() }
         viewModel.clickedTime.simpleSubscribe { showTimePicker() }
         viewModel.clickedSignature.simpleSubscribe { showSignatureActivity() }
+        viewModel.signaturePath.observe(this, Observer<String> {
+            binding.signaturePath = it
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            Constants.REQUEST_CODE_SIGNATURE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    data?.getStringExtra(Constants.EXTRA_SIGNATURE_FILE_PATH)?.let {
+                        viewModel.signaturePath.value = internalStorageManager.getImageAbsoluteFilePath(it)
+                    }
+                }
+            }
+        }
     }
 
     private fun showDatePicker() {
@@ -66,7 +91,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         DatePickerDialog(context!!,
             DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
                 date.set(year, month, dayOfMonth)
-                viewModel.setDate(date.timeInMillis)
+                viewModel.dateTimestamp = date.timeInMillis
             }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH)).show()
     }
 
@@ -81,12 +106,13 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         TimePickerDialog(context!!, TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
             date.set(Calendar.HOUR_OF_DAY, hourOfDay)
             date.set(Calendar.MINUTE, minute)
-            viewModel.setTime(date.timeInMillis)
+            viewModel.timeTimestamp = date.timeInMillis
         }, date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), false).show()
     }
 
     private fun showSignatureActivity() {
         val intent = Intent(context, SignatureActivity::class.java)
-        startActivity(intent)
+        intent.putExtra(Constants.EXTRA_PERSON, person)
+        startActivityForResult(intent, Constants.REQUEST_CODE_SIGNATURE)
     }
 }

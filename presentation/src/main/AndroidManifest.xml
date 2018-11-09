@@ -37,6 +37,7 @@
         <activity
             android:name=".ui.addpersondetail.AddPersonDetailActivity"
             android:label="@string/add_new_person_detail_label"
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.persondetail.PersonDetailActivity" />
         <activity
             android:name=".ui.signature.SignatureActivity"
