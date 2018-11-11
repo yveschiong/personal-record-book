@@ -82,6 +82,10 @@ class AddPersonDetailViewModel(
         clickedSignature.onNext(Unit)
     }
 
+    fun isPathNullOrEmpty(value: String?): Boolean {
+        return value.isNullOrEmpty()
+    }
+
     fun addButtonClicked() {
         setTimestamp(dateTimestamp, timeTimestamp)
 

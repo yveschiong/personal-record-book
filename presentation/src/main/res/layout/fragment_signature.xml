@@ -4,6 +4,20 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="signed"
+            type="boolean" />
+
+        <variable
+            name="signaturePath"
+            type="String" />
+
+        <variable
+            name="metadata"
+            type="com.yveschiong.personalrecordbook.common.metadata.ImageMetadata" />
+
         <variable
             name="vm"
             type="com.yveschiong.personalrecordbook.ui.signature.SignatureViewModel" />
@@ -17,17 +31,20 @@
             android:id="@+id/signature_pad"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:bitmapUrl="@{signaturePath}"
             app:layout_constraintBottom_toTopOf="@+id/clear_signature"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:metadata="@{metadata}"
+            app:onSigned="@{vm::signedSignature}"
             app:penColor="@android:color/black" />
 
         <Button
             android:id="@+id/clear_signature"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> signaturePad.clear()}"
+            android:onClick="@{() -> vm.clearSignature()}"
             android:text="@string/clear_signature"
             android:theme="@style/EditButtonStyle"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,6 +59,7 @@
             android:onClick="@{() -> vm.saveSignature()}"
             android:text="@string/save_signature"
             android:theme="@style/AddButtonStyle"
+            android:visibility="@{signed ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/clear_signature"
             app:layout_constraintRight_toRightOf="parent"

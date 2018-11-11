@@ -31,8 +31,16 @@ class InternalStorageManager @Inject constructor(
         return contextWrapper.getDir(DIRECTORY, Context.MODE_PRIVATE).absolutePath
     }
 
+    fun getImageAbsoluteFilePath(personId: Int, filename: String): String {
+        return getImageParentFilePath() + "/" + getImageRelativeFilePath(personId, filename)
+    }
+
     fun getImageAbsoluteFilePath(childPath: String): String {
         return getImageParentFilePath() + "/" + childPath
+    }
+
+    fun getLastModifiedTimestamp(path: String): Long {
+        return File(path).lastModified()
     }
 
     fun saveSignature(personId: Int, bitmap: Bitmap, filename: String): String {

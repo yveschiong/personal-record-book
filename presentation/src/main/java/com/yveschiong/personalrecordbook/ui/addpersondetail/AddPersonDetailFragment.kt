@@ -14,6 +14,7 @@ import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
+import com.yveschiong.personalrecordbook.common.metadata.ImageMetadata
 import com.yveschiong.personalrecordbook.databinding.FragmentAddPersonDetailBinding
 import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.ui.signature.SignatureActivity
@@ -54,7 +55,6 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddPersonDetailViewModel::class.java)
         binding.vm = viewModel
-        binding.signaturePath = ""
 
         person = arguments?.getParcelable(Constants.EXTRA_PERSON)
         person?.let {
@@ -63,12 +63,16 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
 
         signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?: internalStorageManager.getUniqueFilename()
 
-        viewModel.result.simpleSubscribe{ binding.signaturePath = "" }
+        viewModel.result.simpleSubscribe{ activity?.finish() }
         viewModel.clickedDate.simpleSubscribe { showDatePicker() }
         viewModel.clickedTime.simpleSubscribe { showTimePicker() }
         viewModel.clickedSignature.simpleSubscribe { showSignatureActivity() }
-        viewModel.signaturePath.observe(this, Observer<String> {
-            binding.signaturePath = it
+        viewModel.signaturePath.observe(this, Observer<String> { path ->
+            binding.signaturePath = path
+
+            path?.let {
+                binding.metadata = ImageMetadata(internalStorageManager.getLastModifiedTimestamp(path))
+            }
         })
     }
 

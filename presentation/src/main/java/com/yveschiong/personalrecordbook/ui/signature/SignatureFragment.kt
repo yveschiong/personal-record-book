@@ -11,6 +11,7 @@ import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
 import com.yveschiong.personalrecordbook.common.extensions.showSavingSignatureProgressDialog
+import com.yveschiong.personalrecordbook.common.metadata.ImageMetadata
 import com.yveschiong.personalrecordbook.databinding.FragmentSignatureBinding
 import com.yveschiong.personalrecordbook.entities.Person
 import dagger.android.support.AndroidSupportInjection
@@ -49,13 +50,28 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignatureViewModel::class.java)
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(SignatureViewModel::class.java)
         binding.vm = viewModel
 
         person = arguments?.getParcelable(Constants.EXTRA_PERSON)
-        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?: internalStorageManager.getUniqueFilename()
+        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?:
+            internalStorageManager.getUniqueFilename()
 
+        viewModel.signedSignature.simpleSubscribe { binding.signed = true }
+        viewModel.clickedClearSignature.simpleSubscribe { clearSignature(signature_pad) }
         viewModel.clickedSaveSignature.simpleSubscribe { saveSignature(signature_pad) }
+
+        person?.let {
+            val path = internalStorageManager.getImageAbsoluteFilePath(it.id, signatureFilename)
+            binding.signaturePath = path
+            binding.metadata = ImageMetadata(internalStorageManager.getLastModifiedTimestamp(path))
+        }
+    }
+
+    private fun clearSignature(signaturePad: SignaturePad) {
+        signaturePad.clear()
+        binding.signed = false
     }
 
     private fun saveSignature(signaturePad: SignaturePad) {
@@ -68,7 +84,13 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         person?.let {
             val dialog = showSavingSignatureProgressDialog()
 
-            Single.fromCallable { internalStorageManager.saveSignature(it.id, bitmap, signatureFilename) }
+            Single.fromCallable {
+                internalStorageManager.saveSignature(
+                    it.id,
+                    bitmap,
+                    signatureFilename
+                )
+            }
                 .simpleSubscribe { path ->
                     dialog.cancel()
 

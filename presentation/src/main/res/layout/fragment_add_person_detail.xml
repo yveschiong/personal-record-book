@@ -12,6 +12,10 @@
             type="String" />
 
         <variable
+            name="metadata"
+            type="com.yveschiong.personalrecordbook.common.metadata.ImageMetadata" />
+
+        <variable
             name="vm"
             type="com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailViewModel" />
     </data>
@@ -80,7 +84,7 @@
                 android:drawableLeft="@drawable/ic_gesture"
                 android:drawablePadding="@dimen/button_icon_padding"
                 android:onClick="@{() -> vm.signatureButtonClicked()}"
-                android:text="@{signaturePath.isEmpty() ? @string/place_signature : @string/edit_signature}"
+                android:text="@{vm.isPathNullOrEmpty(signaturePath) ? @string/place_signature : @string/edit_signature}"
                 android:theme="@style/DefaultButtonStyle"
                 app:layout_constraintTop_toBottomOf="@id/durationLayout"
                 tools:text="@string/place_signature" />
@@ -89,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/signature_preview_margins"
-                android:visibility="@{signaturePath.isEmpty() ? View.GONE : View.VISIBLE}"
+                android:visibility="@{vm.isPathNullOrEmpty(signaturePath) ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -101,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/signature_preview_margins"
                     app:imageUrl="@{signaturePath}"
-                    app:placeholder="@{@drawable/ic_launcher_background}"
+                    app:metadata="@{metadata}"
                     tools:src="@drawable/ic_people" />
 
             </android.support.v7.widget.CardView>
