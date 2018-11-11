@@ -5,6 +5,7 @@ object Constants {
 
     const val EXTRA_PERSON = "extra_person"
     const val EXTRA_SIGNATURE_FILE_PATH = "extra_signature_file_path"
+    const val EXTRA_SIGNATURE_FILE_NAME = "extra_signature_file_name"
 
     const val REQUEST_CODE_SIGNATURE = 1
 }

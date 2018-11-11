@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 
 class InternalStorageManager @Inject constructor(
-    private val context: Context
+    context: Context
 ) {
 
     companion object {
@@ -23,8 +23,8 @@ class InternalStorageManager @Inject constructor(
         return UUID.randomUUID().toString()
     }
 
-    fun getImageRelativeFilePath(personId: Int): String {
-        return personId.toString() + "/" + getUniqueFilename() + ".png"
+    fun getImageRelativeFilePath(personId: Int, filename: String): String {
+        return personId.toString() + "/" + filename + ".png"
     }
 
     fun getImageParentFilePath(): String {
@@ -35,10 +35,10 @@ class InternalStorageManager @Inject constructor(
         return getImageParentFilePath() + "/" + childPath
     }
 
-    fun saveSignature(personId: Int, bitmap: Bitmap): String {
+    fun saveSignature(personId: Int, bitmap: Bitmap, filename: String): String {
         val directory = contextWrapper.getDir(DIRECTORY, Context.MODE_PRIVATE)
 
-        val path = getImageRelativeFilePath(personId)
+        val path = getImageRelativeFilePath(personId, filename)
         val file = File(directory, path)
         if (!file.parentFile.exists()) {
             file.parentFile.mkdirs()

@@ -85,6 +85,8 @@ class AddPersonDetailViewModel(
     fun addButtonClicked() {
         setTimestamp(dateTimestamp, timeTimestamp)
 
+        personDetail.signature = signaturePath.value ?: personDetail.signature
+
         if (!validator.checkTimestamp(personDetail)) {
             return
         }

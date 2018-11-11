@@ -17,4 +17,6 @@
     <dimen name="person_detail_record_item_text_padding">5dp</dimen>
 
     <dimen name="button_icon_padding">5dp</dimen>
+
+    <dimen name="signature_preview_margins">15dp</dimen>
 </resources>

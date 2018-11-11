@@ -28,6 +28,8 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
     lateinit var viewModel: SignatureViewModel
 
+    private lateinit var signatureFilename: String
+
     var person: Person? = null
 
     companion object {
@@ -51,6 +53,7 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         binding.vm = viewModel
 
         person = arguments?.getParcelable(Constants.EXTRA_PERSON)
+        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?: internalStorageManager.getUniqueFilename()
 
         viewModel.clickedSaveSignature.simpleSubscribe { saveSignature(signature_pad) }
     }
@@ -65,7 +68,7 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         person?.let {
             val dialog = showSavingSignatureProgressDialog()
 
-            Single.fromCallable { internalStorageManager.saveSignature(it.id, bitmap) }
+            Single.fromCallable { internalStorageManager.saveSignature(it.id, bitmap, signatureFilename) }
                 .simpleSubscribe { path ->
                     dialog.cancel()
 

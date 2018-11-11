@@ -31,6 +31,8 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
 
     lateinit var viewModel: AddPersonDetailViewModel
 
+    lateinit var signatureFilename: String
+
     var person: Person? = null
 
     companion object {
@@ -59,7 +61,9 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
             viewModel.personId = it.id
         }
 
-        viewModel.result.simpleSubscribe{ activity?.finish() }
+        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?: internalStorageManager.getUniqueFilename()
+
+        viewModel.result.simpleSubscribe{ binding.signaturePath = "" }
         viewModel.clickedDate.simpleSubscribe { showDatePicker() }
         viewModel.clickedTime.simpleSubscribe { showTimePicker() }
         viewModel.clickedSignature.simpleSubscribe { showSignatureActivity() }
@@ -113,6 +117,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
     private fun showSignatureActivity() {
         val intent = Intent(context, SignatureActivity::class.java)
         intent.putExtra(Constants.EXTRA_PERSON, person)
+        intent.putExtra(Constants.EXTRA_SIGNATURE_FILE_NAME, signatureFilename)
         startActivityForResult(intent, Constants.REQUEST_CODE_SIGNATURE)
     }
 }

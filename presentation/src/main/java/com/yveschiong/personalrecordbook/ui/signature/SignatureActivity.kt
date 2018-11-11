@@ -6,7 +6,6 @@ import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseActivity
 import com.yveschiong.personalrecordbook.common.extensions.replaceFragment
-import com.yveschiong.personalrecordbook.entities.Person
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -23,13 +22,12 @@ class SignatureActivity : BaseActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signature)
 
-        val person: Person? = intent?.extras?.getParcelable(Constants.EXTRA_PERSON)
-
         if (savedInstanceState == null) {
             val frag = SignatureFragment.newInstance()
 
             val bundle = Bundle()
-            bundle.putParcelable(Constants.EXTRA_PERSON, person)
+            bundle.putParcelable(Constants.EXTRA_PERSON, intent?.extras?.getParcelable(Constants.EXTRA_PERSON))
+            bundle.putString(Constants.EXTRA_SIGNATURE_FILE_NAME, intent?.extras?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME))
             frag.arguments = bundle
 
             replaceFragment(R.id.container, frag)

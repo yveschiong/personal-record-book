@@ -5,6 +5,7 @@ import com.yveschiong.personalrecordbook.ui.addperson.AddPersonActivity
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragment
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragmentModule
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivity
+import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivityModule
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragment
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragmentModule
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
@@ -34,7 +35,7 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindPersonDetailActivity(): PersonDetailActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [AddPersonDetailActivityModule::class])
     abstract fun bindAddPersonDetailActivity(): AddPersonDetailActivity
 
     @ContributesAndroidInjector

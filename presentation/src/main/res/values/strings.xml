@@ -36,7 +36,9 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="duration">Duration</string>
+    <string name="signature">Record Signature</string>
     <string name="place_signature">Place Signature</string>
+    <string name="edit_signature">Edit Signature</string>
 
     <string name="save_signature">Save Signature</string>
     <string name="clear_signature">Clear Signature</string>
