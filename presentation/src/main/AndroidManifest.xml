@@ -42,8 +42,7 @@
         <activity
             android:name=".ui.signature.SignatureActivity"
             android:label="@string/signature"
-            android:parentActivityName=".ui.addpersondetail.AddPersonDetailActivity"
-            android:screenOrientation="landscape" />
+            android:parentActivityName=".ui.addpersondetail.AddPersonDetailActivity" />
     </application>
 
 </manifest>
