@@ -21,8 +21,8 @@ data class PersonDetailEntity(
     @ColumnInfo(name = "duration")
     var duration: Float,
 
-    @ColumnInfo(name = "signature")
-    var signature: String,
+    @ColumnInfo(name = "signature_file_path")
+    var signatureFilePath: String,
 
     @ColumnInfo(name = "person_id")
     var personId: Int,

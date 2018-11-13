@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 data class PersonDetail(
     var timestamp: Long = 0,
     var duration: Float = 0.0f,
-    var signature: String = "",
+    var signatureFilePath: String = "",
     var personId: Int = 0,
     var id: Int = 0
 ) : Parcelable {

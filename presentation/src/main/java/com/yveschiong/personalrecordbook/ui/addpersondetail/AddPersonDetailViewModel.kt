@@ -8,13 +8,13 @@ import com.yveschiong.personalrecordbook.common.base.BaseViewModel
 import com.yveschiong.personalrecordbook.common.extensions.default
 import com.yveschiong.personalrecordbook.common.extensions.getDate
 import com.yveschiong.personalrecordbook.common.extensions.getTime
-import com.yveschiong.personalrecordbook.common.validators.PersonDetailValidator
+import com.yveschiong.personalrecordbook.common.rules.PersonDetailRule
 import com.yveschiong.personalrecordbook.entities.PersonDetail
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 
 class AddPersonDetailViewModel(
-    private val validator: PersonDetailValidator,
+    private val rule: PersonDetailRule,
     private val useCase: AddPersonDetail,
     private val mapper: Mapper<PersonDetail, PersonDetailEntity>) :
     BaseViewModel() {
@@ -89,21 +89,21 @@ class AddPersonDetailViewModel(
     fun addButtonClicked() {
         setTimestamp(dateTimestamp, timeTimestamp)
 
-        personDetail.signature = signaturePath.value ?: personDetail.signature
+        personDetail.signatureFilePath = signaturePath.value ?: personDetail.signatureFilePath
 
-        if (!validator.checkTimestamp(personDetail)) {
+        if (!rule.validateTimestamp(personDetail)) {
             return
         }
 
-        if (!validator.checkDuration(personDetail)) {
+        if (!rule.validateDuration(personDetail)) {
             return
         }
 
-        if (!validator.checkSignature(personDetail)) {
+        if (!rule.validateSignatureFilePath(personDetail)) {
             return
         }
 
-        if (!validator.checkPersonId(personDetail)) {
+        if (!rule.validatePersonId(personDetail)) {
             return
         }
 

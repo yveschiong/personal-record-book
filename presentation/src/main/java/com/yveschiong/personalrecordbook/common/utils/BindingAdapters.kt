@@ -1,6 +1,8 @@
 package com.yveschiong.personalrecordbook.common.utils
 
 import android.databinding.BindingAdapter
+import android.databinding.InverseBindingAdapter
+import android.databinding.InverseBindingListener
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.EditText
@@ -15,6 +17,8 @@ import com.yveschiong.personalrecordbook.common.metadata.ImageMetadata
 import com.yveschiong.personalrecordbook.common.metadata.isNullOrEmpty
 import com.yveschiong.personalrecordbook.common.utils.view.TextChange
 import com.yveschiong.personalrecordbook.common.utils.view.TextChangeWatcher
+import com.yveschiong.personalrecordbook.common.views.ErrorEditText
+
 
 object BindingAdapters {
     @BindingAdapter("textChange")
@@ -25,6 +29,28 @@ object BindingAdapters {
                 textChange.onChange(charSequence.toString())
             }
         })
+    }
+
+    @BindingAdapter("showError", "showErrorAttrChanged", requireAll = false)
+    @JvmStatic
+    fun ErrorEditText.setShowError(show: Boolean, listener: InverseBindingListener) {
+        if (shown == show) {
+            return
+        }
+
+        errorShownListener = object : ErrorEditText.OnErrorShownListener {
+            override fun shown(shown: Boolean) {
+                listener.onChange()
+            }
+        }
+
+        showError(show)
+    }
+
+    @InverseBindingAdapter(attribute = "showError", event = "showErrorAttrChanged")
+    @JvmStatic
+    fun ErrorEditText.getShowError(): Boolean {
+        return shown
     }
 
     @BindingAdapter("imageUrl", "metadata", "placeholder", requireAll = false)

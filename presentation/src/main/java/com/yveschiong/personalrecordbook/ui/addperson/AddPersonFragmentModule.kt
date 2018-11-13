@@ -2,7 +2,7 @@ package com.yveschiong.personalrecordbook.ui.addperson
 
 import com.yveschiong.domain.AppRepository
 import com.yveschiong.domain.usecases.AddPerson
-import com.yveschiong.personalrecordbook.common.validators.PersonValidator
+import com.yveschiong.personalrecordbook.common.rules.RegularPersonRule
 import com.yveschiong.personalrecordbook.mappers.PersonEntityMapper
 import dagger.Module
 import dagger.Provides
@@ -16,10 +16,10 @@ class AddPersonFragmentModule {
 
     @Provides
     fun provideAddPersonViewModelFactory(
-        validator: PersonValidator,
+        rule: RegularPersonRule,
         useCase: AddPerson,
         mapper: PersonEntityMapper
     ): AddPersonViewModelFactory {
-        return AddPersonViewModelFactory(validator, useCase, mapper)
+        return AddPersonViewModelFactory(rule, useCase, mapper)
     }
 }
