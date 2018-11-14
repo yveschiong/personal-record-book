@@ -45,6 +45,8 @@
 
     <string name="saving_signature_loading_message">Saving Signature. Please wait&#8230;</string>
 
+    <string name="signature_invalid">You must place a signature before adding the record.</string>
+
     <string name="error_invalid">This input is invalid.</string>
 
 </resources>

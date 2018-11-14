@@ -24,7 +24,11 @@ class AddPersonDetailViewModel(
     var clickedDate: PublishSubject<Unit> = PublishSubject.create()
     var clickedTime: PublishSubject<Unit> = PublishSubject.create()
     var clickedSignature: PublishSubject<Unit> = PublishSubject.create()
+
     var result: PublishSubject<Long> = PublishSubject.create()
+
+    var showDurationError = MutableLiveData<Boolean>()
+    var showSignatureError = MutableLiveData<Boolean>()
 
     private val currentTimestamp = Calendar.getInstance().timeInMillis
 
@@ -70,6 +74,10 @@ class AddPersonDetailViewModel(
         personDetail.timestamp = date.timeInMillis
     }
 
+    fun setSignatureFilePath(path: String) {
+        personDetail.signatureFilePath = path
+    }
+
     fun dateButtonClicked() {
         clickedDate.onNext(Unit)
     }
@@ -86,24 +94,20 @@ class AddPersonDetailViewModel(
         return value.isNullOrEmpty()
     }
 
+    fun updateSignatureError() {
+        setSignatureFilePath(signaturePath.value ?: personDetail.signatureFilePath)
+
+        showSignatureError.value = !rule.validateSignatureFilePath(personDetail)
+    }
+
     fun addButtonClicked() {
         setTimestamp(dateTimestamp, timeTimestamp)
 
-        personDetail.signatureFilePath = signaturePath.value ?: personDetail.signatureFilePath
+        updateSignatureError()
 
-        if (!rule.validateTimestamp(personDetail)) {
-            return
-        }
+        showDurationError.value = !rule.validateDuration(personDetail)
 
-        if (!rule.validateDuration(personDetail)) {
-            return
-        }
-
-        if (!rule.validateSignatureFilePath(personDetail)) {
-            return
-        }
-
-        if (!rule.validatePersonId(personDetail)) {
+        if (!rule.validate(personDetail)) {
             return
         }
 

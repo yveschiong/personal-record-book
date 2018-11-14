@@ -73,6 +73,8 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
             path?.let {
                 binding.metadata = ImageMetadata(internalStorageManager.getLastModifiedTimestamp(path))
             }
+
+            viewModel.updateSignatureError()
         })
     }
 

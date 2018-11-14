@@ -5,6 +5,7 @@ import android.databinding.InverseBindingAdapter
 import android.databinding.InverseBindingListener
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import com.bumptech.glide.request.target.CustomViewTarget
@@ -33,8 +34,8 @@ object BindingAdapters {
 
     @BindingAdapter("showError", "showErrorAttrChanged", requireAll = false)
     @JvmStatic
-    fun ErrorEditText.setShowError(show: Boolean, listener: InverseBindingListener) {
-        if (shown == show) {
+    fun ErrorEditText.setShowError(show: Boolean?, listener: InverseBindingListener) {
+        if (showError == show) {
             return
         }
 
@@ -44,13 +45,13 @@ object BindingAdapters {
             }
         }
 
-        showError(show)
+        showError = show ?: false
     }
 
     @InverseBindingAdapter(attribute = "showError", event = "showErrorAttrChanged")
     @JvmStatic
     fun ErrorEditText.getShowError(): Boolean {
-        return shown
+        return showError
     }
 
     @BindingAdapter("imageUrl", "metadata", "placeholder", requireAll = false)
@@ -107,5 +108,21 @@ object BindingAdapters {
                 signatureBitmap = resource
             }
         })
+    }
+
+    @BindingAdapter("visible")
+    @JvmStatic
+    fun View.setVisible(visible: Boolean?) {
+        visibility = if (visible != false) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
+    @BindingAdapter("gone")
+    @JvmStatic
+    fun View.setGone(gone: Boolean?) {
+        setVisible(gone?.not() ?: false)
     }
 }

@@ -25,6 +25,9 @@ class AddPersonViewModel(
     var result: PublishSubject<Long> = PublishSubject.create()
 
     var showFirstNameError = MutableLiveData<Boolean>()
+    var showMiddleNameError = MutableLiveData<Boolean>()
+    var showLastNameError = MutableLiveData<Boolean>()
+    var showLicenseError = MutableLiveData<Boolean>()
 
     fun addButtonClicked() {
         person.firstName = firstName.value ?: ""
@@ -33,6 +36,9 @@ class AddPersonViewModel(
         person.license = license.value ?: ""
 
         showFirstNameError.value = !rule.validateFirstName(person)
+        showMiddleNameError.value = !rule.validateMiddleName(person)
+        showLastNameError.value = !rule.validateLastName(person)
+        showLicenseError.value = !rule.validateLicense(person)
 
         if (!rule.validate(person)) {
             return

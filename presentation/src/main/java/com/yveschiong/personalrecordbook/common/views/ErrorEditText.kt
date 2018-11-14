@@ -17,9 +17,26 @@ class ErrorEditText @JvmOverloads constructor(
         fun shown(shown: Boolean)
     }
 
-    var shown: Boolean = false
-    var errorText: String? = null
+    private var errorText: String? = null
+
     var errorShownListener: OnErrorShownListener? = null
+
+    var showError: Boolean = false
+        set(value) {
+            if (field == value) {
+                return
+            }
+
+            field = value
+
+            error = if (value) {
+                errorText
+            } else {
+                null
+            }
+
+            errorShownListener?.shown(value)
+        }
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.ErrorEditText, 0, 0)
@@ -29,28 +46,18 @@ class ErrorEditText @JvmOverloads constructor(
         array.recycle()
     }
 
-    fun showError(show: Boolean) {
-        shown = show
-        error = if (show) {
-            errorText
-        } else {
-            null
-        }
-
-        errorShownListener?.shown(show)
-    }
-
     override fun setError(error: CharSequence?) {
         super.setError(error)
-
-        shown = error != null
-        errorShownListener?.shown(shown)
+        setErrorInternal(error)
     }
 
     override fun setError(error: CharSequence?, icon: Drawable?) {
         super.setError(error, icon)
+        setErrorInternal(error)
+    }
 
-        shown = error != null
-        errorShownListener?.shown(shown)
+    private fun setErrorInternal(error: CharSequence?) {
+        error?.let { errorText = it.toString() }
+        showError = error != null
     }
 }
