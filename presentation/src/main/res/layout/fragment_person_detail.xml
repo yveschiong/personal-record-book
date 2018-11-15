@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/person_detail_page_padding"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/fab"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -48,14 +49,16 @@
                     android:text="@{person.license}"
                     app:layout_constraintLeft_toRightOf="@+id/licenseLabel"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/licenseLabel"
                     tools:text="234567654335323432432" />
 
                 <include
                     android:id="@+id/listPersonDetails"
                     layout="@layout/list_person_details"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginTop="@dimen/person_detail_page_label_value_spacing"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/licenseValue" />
 
             </android.support.constraint.ConstraintLayout>

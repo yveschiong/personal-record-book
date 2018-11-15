@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
-            android:paddingTop="@dimen/person_detail_record_item_text_padding"
-            android:paddingBottom="@dimen/person_detail_record_item_text_padding"
+            android:padding="@dimen/person_detail_record_item_text_padding"
             android:singleLine="true"
             android:text="@{detail.getDate()}"
             android:textColor="@color/person_detail_record_item_text_color"
@@ -40,9 +39,10 @@
             android:id="@+id/timeLabel"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:ellipsize="end"
             android:gravity="center"
+            android:padding="@dimen/person_detail_record_item_text_padding"
             android:singleLine="true"
             android:text="@{detail.getTime()}"
             android:textColor="@color/person_detail_record_item_text_color"
@@ -56,33 +56,43 @@
             android:id="@+id/durationLabel"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:ellipsize="end"
             android:gravity="center"
+            android:padding="@dimen/person_detail_record_item_text_padding"
             android:singleLine="true"
             android:text="@{String.valueOf(detail.duration)}"
             android:textColor="@color/person_detail_record_item_text_color"
             app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintLeft_toRightOf="@+id/timeLabel"
-            app:layout_constraintRight_toLeftOf="@id/signatureLabel"
+            app:layout_constraintRight_toLeftOf="@id/signature"
             app:layout_constraintTop_toTopOf="@+id/date"
             tools:text="@string/record_duration" />
 
-        <TextView
-            android:id="@+id/signatureLabel"
-            style="@style/TextAppearance.AppCompat.Small"
+        <FrameLayout
+            android:id="@+id/signature"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@{detail.signatureFilePath}"
-            android:textColor="@color/person_detail_record_item_text_color"
-            app:layout_constraintBottom_toBottomOf="@+id/date"
+            android:layout_height="@dimen/person_detail_record_item_signature_image_height"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/durationLabel"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/date"
-            tools:text="@string/record_signature" />
+            app:layout_constraintTop_toTopOf="@+id/date">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/person_detail_record_item_signature_image_padding">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/person_detail_record_item_signature_image_padding"
+                    app:imageUrl="@{detail.signatureFilePath}"
+                    tools:src="@drawable/ic_people" />
+
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
 
         <!-- Can't find a way to add the ripple to the constraint layout parent
              so forced to create an overlay view to show the ripple instead -->
