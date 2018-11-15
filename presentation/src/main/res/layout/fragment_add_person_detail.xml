@@ -57,31 +57,32 @@
                 app:layout_constraintLeft_toRightOf="@id/date"
                 tools:text="1:42 AM" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.yveschiong.personalrecordbook.common.views.ErrorTextInputLayout
                 android:id="@+id/durationLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:error="@string/error_invalid"
                 app:errorEnabled="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/time">
+                app:layout_constraintTop_toBottomOf="@+id/time"
+                app:showError="@={vm.showDurationError}">
 
-                <com.yveschiong.personalrecordbook.common.views.ErrorEditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/duration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/duration"
                     android:inputType="numberDecimal"
-                    app:error="@string/error_invalid"
-                    app:showError="@={vm.showDurationError}"
                     app:textChange="@{(val) -> { vm.setDuration(val) }}" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.yveschiong.personalrecordbook.common.views.ErrorTextInputLayout>
 
             <Button
                 android:id="@+id/signatureButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_field_margin"
                 android:drawableStart="@drawable/ic_gesture"
                 android:drawableLeft="@drawable/ic_gesture"
                 android:drawablePadding="@dimen/button_icon_padding"

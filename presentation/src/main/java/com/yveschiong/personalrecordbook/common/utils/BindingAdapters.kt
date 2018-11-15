@@ -18,7 +18,7 @@ import com.yveschiong.personalrecordbook.common.metadata.ImageMetadata
 import com.yveschiong.personalrecordbook.common.metadata.isNullOrEmpty
 import com.yveschiong.personalrecordbook.common.utils.view.TextChange
 import com.yveschiong.personalrecordbook.common.utils.view.TextChangeWatcher
-import com.yveschiong.personalrecordbook.common.views.ErrorEditText
+import com.yveschiong.personalrecordbook.common.views.ErrorTextInputLayout
 
 
 object BindingAdapters {
@@ -34,12 +34,12 @@ object BindingAdapters {
 
     @BindingAdapter("showError", "showErrorAttrChanged", requireAll = false)
     @JvmStatic
-    fun ErrorEditText.setShowError(show: Boolean?, listener: InverseBindingListener) {
+    fun ErrorTextInputLayout.setShowError(show: Boolean?, listener: InverseBindingListener) {
         if (showError == show) {
             return
         }
 
-        errorShownListener = object : ErrorEditText.OnErrorShownListener {
+        errorShownListener = object : ErrorTextInputLayout.OnErrorShownListener {
             override fun shown(shown: Boolean) {
                 listener.onChange()
             }
@@ -50,7 +50,7 @@ object BindingAdapters {
 
     @InverseBindingAdapter(attribute = "showError", event = "showErrorAttrChanged")
     @JvmStatic
-    fun ErrorEditText.getShowError(): Boolean {
+    fun ErrorTextInputLayout.getShowError(): Boolean {
         return showError
     }
 

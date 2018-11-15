@@ -8,6 +8,8 @@
 
     <dimen name="list_item_margin">10dp</dimen>
 
+    <dimen name="text_field_margin">5dp</dimen>
+
     <dimen name="add_person_page_padding">10dp</dimen>
     <dimen name="person_detail_page_padding">10dp</dimen>
     <dimen name="person_detail_page_label_value_spacing">10dp</dimen>

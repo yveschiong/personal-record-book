@@ -12,6 +12,12 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
 
     buildTypes {
@@ -34,6 +40,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // Lifecycle
+    implementation "android.arch.persistence.room:runtime:$lifecycleVersion"
     kapt "android.arch.persistence.room:compiler:$lifecycleVersion"
     implementation "android.arch.persistence.room:rxjava2:$lifecycleVersion"
 

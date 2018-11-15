@@ -1,17 +1,16 @@
 package com.yveschiong.personalrecordbook.common.views
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import com.yveschiong.personalrecordbook.R
 
 
-class ErrorEditText @JvmOverloads constructor(
+class ErrorTextInputLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : TextInputEditText(context, attrs) {
+) : TextInputLayout(context, attrs) {
 
     interface OnErrorShownListener {
         fun shown(shown: Boolean)
@@ -39,25 +38,17 @@ class ErrorEditText @JvmOverloads constructor(
         }
 
     init {
-        val array = context.obtainStyledAttributes(attrs, R.styleable.ErrorEditText, 0, 0)
+        val array = context.obtainStyledAttributes(attrs, R.styleable.ErrorTextInputLayout, 0, 0)
 
-        errorText = array.getString(R.styleable.ErrorEditText_error)
+        errorText = array.getString(R.styleable.ErrorTextInputLayout_error)
 
         array.recycle()
     }
 
-    override fun setError(error: CharSequence?) {
-        super.setError(error)
-        setErrorInternal(error)
-    }
+    override fun setError(errorText: CharSequence?) {
+        super.setError(errorText)
 
-    override fun setError(error: CharSequence?, icon: Drawable?) {
-        super.setError(error, icon)
-        setErrorInternal(error)
-    }
-
-    private fun setErrorInternal(error: CharSequence?) {
-        error?.let { errorText = it.toString() }
+        error?.let { this.errorText = it.toString() }
         showError = error != null
     }
 }

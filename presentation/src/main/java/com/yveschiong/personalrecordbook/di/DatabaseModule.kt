@@ -15,7 +15,10 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, Constants.DATABASE_NAME).build()
+        return Room.databaseBuilder(context, AppDatabase::class.java, Constants.DATABASE_NAME)
+            // TODO Should not be used in the prod version
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Singleton
