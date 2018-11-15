@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/person_detail_record_item_color"
-        android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> listener.onClicked(detail)}">
 
         <TextView
@@ -84,6 +83,17 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/date"
             tools:text="@string/record_signature" />
+
+        <!-- Can't find a way to add the ripple to the constraint layout parent
+             so forced to create an overlay view to show the ripple instead -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
