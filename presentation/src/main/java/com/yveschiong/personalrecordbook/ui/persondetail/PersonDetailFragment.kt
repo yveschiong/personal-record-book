@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
@@ -20,6 +21,9 @@ import kotlinx.android.synthetic.main.list_person_details.view.*
 import javax.inject.Inject
 
 class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refreshable {
+
+    @Inject
+    lateinit var internalStorageManager: InternalStorageManager
 
     @Inject
     lateinit var viewModelFactory: PersonDetailViewModelFactory
@@ -65,7 +69,7 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
             override fun onClicked(data: PersonDetail) {
 
             }
-        })
+        }, internalStorageManager)
 
         binding.listPersonDetails.recyclerView.setEmptyView(binding.listPersonDetails.emptyView)
 

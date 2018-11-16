@@ -59,7 +59,7 @@ class AddPersonDetailViewModel(
         try {
             personDetail.duration = value.toFloat()
         } catch (exception: NumberFormatException) {
-            // Pass through
+            personDetail.duration = 0.0f
         }
     }
 
@@ -96,6 +96,7 @@ class AddPersonDetailViewModel(
     }
 
     fun updateSignatureError() {
+        // For now we will set it to the absolute file path for the cache file just for validation
         setSignatureFilePath(signaturePath.value ?: personDetail.signatureFilePath)
 
         showSignatureError.value = !rule.validateSignatureFilePath(personDetail)
@@ -104,9 +105,11 @@ class AddPersonDetailViewModel(
     fun addButtonClicked() {
         setTimestamp(dateTimestamp, timeTimestamp)
 
-        updateSignatureError()
-
         showDurationError.value = !rule.validateDuration(personDetail)
+
+        // This will still check the cache file and if it validates then we can set the path
+        // to be the relative file path for the internal file in the fragment
+        showSignatureError.value = !rule.validateSignatureFilePath(personDetail)
 
         if (!rule.validate(personDetail)) {
             return

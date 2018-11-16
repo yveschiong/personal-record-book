@@ -36,7 +36,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
 
     lateinit var viewModel: AddPersonDetailViewModel
 
-    lateinit var signatureFilename: String
+    private lateinit var signatureFilename: String
 
     var person: Person? = null
 
@@ -61,13 +61,13 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
             ViewModelProviders.of(this, viewModelFactory).get(AddPersonDetailViewModel::class.java)
         binding.vm = viewModel
 
+        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?:
+            internalStorageManager.getUniqueFilename()
+
         person = arguments?.getParcelable(Constants.EXTRA_PERSON)
         person?.let {
             viewModel.personId = it.id
         }
-
-        signatureFilename = arguments?.getString(Constants.EXTRA_SIGNATURE_FILE_NAME) ?:
-            internalStorageManager.getUniqueFilename()
 
         viewModel.clickedDate.simpleSubscribe { showDatePicker() }
         viewModel.clickedTime.simpleSubscribe { showTimePicker() }
@@ -142,8 +142,8 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                     }
 
                     if (deleted) {
-                        // Get a reference to the new internal file
-                        newSignaturePath = internalStorageManager.getImageAbsoluteFilePath(
+                        // Get a relative path reference to the new internal file
+                        newSignaturePath = internalStorageManager.getImageRelativeFilePath(
                             InternalStorageManager.INTERNAL,
                             person.id,
                             newSignatureFilename
@@ -151,6 +151,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                     }
                 }
 
+                // The relative signature file path
                 newSignaturePath
             }.simpleSubscribe { path ->
                 viewModel.result.simpleSubscribe {

@@ -36,7 +36,7 @@ class InternalStorageManager @Inject constructor(
         }
     }
 
-    private fun getImageRelativeFilePath(mode: Int, personId: Int, filename: String): String {
+    fun getImageRelativeFilePath(mode: Int, personId: Int, filename: String): String {
         return when (mode) {
             CACHE -> DIRECTORY + "/" + personId.toString() + "/" + filename + ".png"
             INTERNAL -> personId.toString() + "/" + filename + ".png"

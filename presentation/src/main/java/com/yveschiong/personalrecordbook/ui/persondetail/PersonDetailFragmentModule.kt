@@ -1,5 +1,7 @@
 package com.yveschiong.personalrecordbook.ui.persondetail
 
+import android.content.Context
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.domain.AppRepository
 import com.yveschiong.domain.usecases.GetPersonDetails
 import com.yveschiong.personalrecordbook.mappers.PersonDetailEntityPersonDetailMapper
@@ -8,6 +10,11 @@ import dagger.Provides
 
 @Module
 class PersonDetailFragmentModule {
+    @Provides
+    fun provideInternalStorageManager(context: Context): InternalStorageManager {
+        return InternalStorageManager(context)
+    }
+
     @Provides
     fun provideGetPersonDetailsUseCase(repository: AppRepository): GetPersonDetails {
         return GetPersonDetails(repository)

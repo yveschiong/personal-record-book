@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.BR
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.base.BindableRecyclerViewHolder
@@ -12,7 +13,10 @@ import com.yveschiong.personalrecordbook.databinding.ListItemPersonDetailBinding
 import com.yveschiong.personalrecordbook.entities.PersonDetail
 import java.util.*
 
-class PeopleDetailsAdapter(private val clicked: OnAdapterViewClicked<PersonDetail>) : RecyclerView.Adapter<BindableRecyclerViewHolder>() {
+class PeopleDetailsAdapter(
+    private val clicked: OnAdapterViewClicked<PersonDetail>,
+    private val internalStorageManager: InternalStorageManager
+) : RecyclerView.Adapter<BindableRecyclerViewHolder>() {
 
     private val personDetails = ArrayList<PersonDetail>()
 
@@ -20,6 +24,7 @@ class PeopleDetailsAdapter(private val clicked: OnAdapterViewClicked<PersonDetai
         val layoutInflater = LayoutInflater.from(viewGroup.context)
         val binding = DataBindingUtil.inflate<ListItemPersonDetailBinding>(layoutInflater, R.layout.list_item_person_detail, viewGroup, false)
         binding.listener = clicked
+        binding.manager = internalStorageManager
         return BindableRecyclerViewHolder(binding)
     }
 

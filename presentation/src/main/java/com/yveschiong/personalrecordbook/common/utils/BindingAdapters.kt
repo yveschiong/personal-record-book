@@ -13,6 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import com.github.gcacace.signaturepad.utils.SignaturePadBindingAdapter
 import com.github.gcacace.signaturepad.views.SignaturePad
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.GlideApp
 import com.yveschiong.personalrecordbook.common.metadata.ImageMetadata
 import com.yveschiong.personalrecordbook.common.metadata.isNullOrEmpty
@@ -70,6 +71,21 @@ object BindingAdapters {
         }
 
         load.placeholder(placeholder).into(this)
+    }
+
+    @BindingAdapter("imageRelativeUrl", "manager")
+    @JvmStatic
+    fun ImageView.loadImage(url: String?, manager: InternalStorageManager?) {
+        if (url.isNullOrEmpty()) {
+            return
+        }
+
+        if (manager == null) {
+            return
+        }
+
+        val absoluteUrl = manager.getImageAbsoluteFilePath(InternalStorageManager.INTERNAL, url)
+        GlideApp.with(this).load(absoluteUrl).into(this)
     }
 
     // The built-in data-binding binding adapter for the signature pad doesn't seem to work
