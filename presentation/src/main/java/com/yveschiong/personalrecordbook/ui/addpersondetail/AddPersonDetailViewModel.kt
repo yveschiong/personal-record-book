@@ -24,6 +24,7 @@ class AddPersonDetailViewModel(
     var clickedDate: PublishSubject<Unit> = PublishSubject.create()
     var clickedTime: PublishSubject<Unit> = PublishSubject.create()
     var clickedSignature: PublishSubject<Unit> = PublishSubject.create()
+    var clickedAddRecord: PublishSubject<Unit> = PublishSubject.create()
 
     var result: PublishSubject<Long> = PublishSubject.create()
 
@@ -111,6 +112,10 @@ class AddPersonDetailViewModel(
             return
         }
 
+        clickedAddRecord.onNext(Unit)
+    }
+
+    fun addPersonDetail() {
         useCase.add(mapper.mapFrom(personDetail)).simpleSubscribe(result)
     }
 }

@@ -63,7 +63,11 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
         viewModel.clickedSaveSignature.simpleSubscribe { saveSignature(signature_pad) }
 
         person?.let {
-            val path = internalStorageManager.getImageAbsoluteFilePath(it.id, signatureFilename)
+            val path = internalStorageManager.getImageAbsoluteFilePath(
+                InternalStorageManager.CACHE,
+                it.id,
+                signatureFilename
+            )
             binding.signaturePath = path
             binding.metadata = ImageMetadata(internalStorageManager.getLastModifiedTimestamp(path))
         }
@@ -86,17 +90,17 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
             Single.fromCallable {
                 internalStorageManager.saveSignature(
+                    InternalStorageManager.CACHE,
                     it.id,
                     bitmap,
                     signatureFilename
                 )
-            }
-                .simpleSubscribe { path ->
-                    dialog.cancel()
+            }.simpleSubscribe { path ->
+                dialog.cancel()
 
-                    setResultIntent(path)
-                    activity?.finish()
-                }
+                setResultIntent(path)
+                activity?.finish()
+            }
         }
     }
 
