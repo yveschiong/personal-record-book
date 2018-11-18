@@ -49,17 +49,13 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonDetailViewModel::class.java)
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(PersonDetailViewModel::class.java)
         binding.vm = viewModel
         binding.person = arguments?.getParcelable(Constants.EXTRA_PERSON)
 
-        viewModel.result.simpleSubscribe{ adapter.setData(it) }
-        viewModel.clicked.simpleSubscribe{ showAddPeopleDetailActivity(it) }
-
-        if (savedInstanceState == null) {
-            // We want to make a fetch the very first time the activity has been created
-            refresh()
-        }
+        viewModel.result.simpleSubscribe { adapter.setData(it) }
+        viewModel.clicked.simpleSubscribe { showAddPeopleDetailActivity(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,6 +82,15 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
     override fun refresh() {
         binding.person?.id?.let {
             viewModel.fetch(it)
+        }
+
+        binding.person?.let {
+            // Delete the signature cache for this person
+            internalStorageManager.delete(
+                InternalStorageManager.MODE_CACHE,
+                InternalStorageManager.TYPE_SIGNATURE,
+                it.id
+            )
         }
     }
 }

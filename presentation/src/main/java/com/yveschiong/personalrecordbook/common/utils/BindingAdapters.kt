@@ -84,7 +84,11 @@ object BindingAdapters {
             return
         }
 
-        val absoluteUrl = manager.getImageAbsoluteFilePath(InternalStorageManager.INTERNAL, url)
+        val absoluteUrl = manager.getAbsoluteFilePath(
+            InternalStorageManager.MODE_INTERNAL,
+            InternalStorageManager.TYPE_SIGNATURE,
+            url
+        )
         GlideApp.with(this).load(absoluteUrl).into(this)
     }
 

@@ -64,7 +64,7 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
         person?.let {
             val path = internalStorageManager.getImageAbsoluteFilePath(
-                InternalStorageManager.CACHE,
+                InternalStorageManager.MODE_CACHE,
                 it.id,
                 signatureFilename
             )
@@ -90,7 +90,7 @@ class SignatureFragment : BaseFragment<FragmentSignatureBinding>() {
 
             Single.fromCallable {
                 internalStorageManager.saveSignature(
-                    InternalStorageManager.CACHE,
+                    InternalStorageManager.MODE_CACHE,
                     it.id,
                     bitmap,
                     signatureFilename

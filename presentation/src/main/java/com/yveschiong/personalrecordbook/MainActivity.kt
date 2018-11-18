@@ -10,9 +10,8 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-import com.yveschiong.personalrecordbook.common.base.BaseActivity
+import com.yveschiong.personalrecordbook.common.base.BaseContainerActivity
 import com.yveschiong.personalrecordbook.common.extensions.replaceFragment
-import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonActivity
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
 import dagger.android.AndroidInjection
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), HasSupportFragmentInjector {
+class MainActivity : BaseContainerActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -72,9 +71,8 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val frag = supportFragmentManager.findFragmentById(R.id.fragment) as? Refreshable ?: return
-        frag.refresh()
+    override fun getContainerId(): Int {
+        return R.id.container
     }
 
     private fun setupFab(fab: FloatingActionButton) {
@@ -104,7 +102,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun setNavigation(id: Int) {
         when (id) {
             R.id.nav_people -> {
-                replaceFragment(R.id.fragment, PeopleFragment.newInstance(), id.toString())
+                replaceFragment(getContainerId(), PeopleFragment.newInstance(), id.toString())
             }
             else -> return
         }
@@ -113,7 +111,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     private fun getCurrentNavId(): Int? {
-        return supportFragmentManager.findFragmentById(R.id.fragment)?.tag?.toInt()
+        return supportFragmentManager.findFragmentById(getContainerId())?.tag?.toInt()
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

@@ -1,13 +1,11 @@
 package com.yveschiong.personalrecordbook.ui.persondetail
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
-import com.yveschiong.personalrecordbook.common.base.BaseActivity
+import com.yveschiong.personalrecordbook.common.base.BaseContainerActivity
 import com.yveschiong.personalrecordbook.common.extensions.replaceFragment
-import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
 import com.yveschiong.personalrecordbook.entities.Person
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -15,7 +13,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-class PersonDetailActivity : BaseActivity(), HasSupportFragmentInjector {
+class PersonDetailActivity : BaseContainerActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -41,13 +39,12 @@ class PersonDetailActivity : BaseActivity(), HasSupportFragmentInjector {
             bundle.putParcelable(Constants.EXTRA_PERSON, person)
             frag.arguments = bundle
 
-            replaceFragment(R.id.container, frag)
+            replaceFragment(getContainerId(), frag)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val frag = supportFragmentManager.findFragmentById(R.id.container) as? Refreshable ?: return
-        frag.refresh()
+    override fun getContainerId(): Int {
+        return R.id.container
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

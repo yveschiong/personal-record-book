@@ -47,11 +47,6 @@ class PeopleFragment : BaseFragment<FragmentPeopleBinding>(), Refreshable {
         binding.vm = viewModel
 
         viewModel.result.simpleSubscribe{ adapter.setData(it) }
-
-        if (savedInstanceState == null) {
-            // We want to make a fetch the very first time the activity has been created
-            refresh()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

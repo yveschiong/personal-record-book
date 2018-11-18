@@ -93,8 +93,10 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.getStringExtra(Constants.EXTRA_SIGNATURE_FILE_PATH)?.let {
                         viewModel.signaturePath.value =
-                            internalStorageManager.getImageAbsoluteFilePath(
-                                InternalStorageManager.CACHE, it
+                            internalStorageManager.getAbsoluteFilePath(
+                                InternalStorageManager.MODE_CACHE,
+                                InternalStorageManager.TYPE_SIGNATURE,
+                                it
                             )
                     }
                 }
@@ -114,7 +116,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
 
                     // Trim the bitmap and save the signature to internal storage
                     val croppedBitmap = internalStorageManager.loadSignature(
-                        InternalStorageManager.CACHE,
+                        InternalStorageManager.MODE_CACHE,
                         person.id,
                         signatureFilename
                     ).cropped()
@@ -122,7 +124,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                     var saved = false
                     croppedBitmap?.let { bitmap ->
                         saved = !internalStorageManager.saveSignature(
-                            InternalStorageManager.INTERNAL,
+                            InternalStorageManager.MODE_INTERNAL,
                             person.id,
                             bitmap,
                             newSignatureFilename
@@ -134,7 +136,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                         // Delete the file from the cache
                         deleted = internalStorageManager.delete(
                             internalStorageManager.getImageAbsoluteFilePath(
-                                InternalStorageManager.CACHE,
+                                InternalStorageManager.MODE_CACHE,
                                 person.id,
                                 signatureFilename
                             )
@@ -144,7 +146,7 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
                     if (deleted) {
                         // Get a relative path reference to the new internal file
                         newSignaturePath = internalStorageManager.getImageRelativeFilePath(
-                            InternalStorageManager.INTERNAL,
+                            InternalStorageManager.MODE_INTERNAL,
                             person.id,
                             newSignatureFilename
                         )
