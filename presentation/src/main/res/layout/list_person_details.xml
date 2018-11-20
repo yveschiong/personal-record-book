@@ -44,23 +44,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/dateLabel"
         app:layout_constraintLeft_toRightOf="@+id/dateLabel"
-        app:layout_constraintRight_toLeftOf="@id/durationLabel"
-        app:layout_constraintTop_toTopOf="@+id/dateLabel" />
-
-    <TextView
-        android:id="@+id/durationLabel"
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:padding="@dimen/person_detail_record_item_text_padding"
-        android:singleLine="true"
-        android:text="@string/record_duration"
-        android:textColor="@color/person_detail_record_header_text_color"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/dateLabel"
-        app:layout_constraintLeft_toRightOf="@+id/timeLabel"
         app:layout_constraintRight_toLeftOf="@id/signatureLabel"
         app:layout_constraintTop_toTopOf="@+id/dateLabel" />
 
@@ -77,7 +60,7 @@
         android:textColor="@color/person_detail_record_header_text_color"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/dateLabel"
-        app:layout_constraintLeft_toRightOf="@+id/durationLabel"
+        app:layout_constraintLeft_toRightOf="@+id/timeLabel"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/dateLabel" />
 

@@ -21,32 +21,47 @@ class AddPersonDetailViewModel(
 
     private var personDetail = PersonDetail()
 
-    var clickedDate: PublishSubject<Unit> = PublishSubject.create()
-    var clickedTime: PublishSubject<Unit> = PublishSubject.create()
+    var clickedStartDate: PublishSubject<Unit> = PublishSubject.create()
+    var clickedStartTime: PublishSubject<Unit> = PublishSubject.create()
+    var clickedEndDate: PublishSubject<Unit> = PublishSubject.create()
+    var clickedEndTime: PublishSubject<Unit> = PublishSubject.create()
     var clickedSignature: PublishSubject<Unit> = PublishSubject.create()
     var clickedAddRecord: PublishSubject<Unit> = PublishSubject.create()
 
     var result: PublishSubject<Long> = PublishSubject.create()
 
-    var showDurationError = MutableLiveData<Boolean>()
     var showSignatureError = MutableLiveData<Boolean>()
 
     private val currentTimestamp = Calendar.getInstance().timeInMillis
 
-    val date = MutableLiveData<String>().default(currentTimestamp.getDate())
-    val time = MutableLiveData<String>().default(currentTimestamp.getTime())
+    val startDate = MutableLiveData<String>().default(currentTimestamp.getDate())
+    val startTime = MutableLiveData<String>().default(currentTimestamp.getTime())
+    val endDate = MutableLiveData<String>().default(currentTimestamp.getDate())
+    val endTime = MutableLiveData<String>().default(currentTimestamp.getTime())
     val signaturePath = MutableLiveData<String>()
 
-    var dateTimestamp = currentTimestamp
+    var startDateTimestamp = currentTimestamp
         set(value) {
             field = value
-            date.value = value.getDate()
+            startDate.value = value.getDate()
         }
 
-    var timeTimestamp = currentTimestamp
+    var startTimeTimestamp = currentTimestamp
         set(value) {
             field = value
-            time.value = value.getTime()
+            startTime.value = value.getTime()
+        }
+
+    var endDateTimestamp = currentTimestamp
+        set(value) {
+            field = value
+            endDate.value = value.getDate()
+        }
+
+    var endTimeTimestamp = currentTimestamp
+        set(value) {
+            field = value
+            endTime.value = value.getTime()
         }
 
     var personId: Int = 0
@@ -55,15 +70,15 @@ class AddPersonDetailViewModel(
             personDetail.personId = value
         }
 
-    fun setDuration(value: String) {
-        try {
-            personDetail.duration = value.toFloat()
-        } catch (exception: NumberFormatException) {
-            personDetail.duration = 0.0f
-        }
+    fun setStartTimestamp(dateTimestamp: Long, timeTimestamp: Long) {
+        personDetail.startTimestamp = generateTimestamp(dateTimestamp, timeTimestamp).timeInMillis
     }
 
-    fun setTimestamp(dateTimestamp: Long, timeTimestamp: Long) {
+    fun setEndTimestamp(dateTimestamp: Long, timeTimestamp: Long) {
+        personDetail.endTimestamp = generateTimestamp(dateTimestamp, timeTimestamp).timeInMillis
+    }
+
+    private fun generateTimestamp(dateTimestamp: Long, timeTimestamp: Long): Calendar {
         val time = Calendar.getInstance()
         time.timeInMillis = timeTimestamp
 
@@ -72,19 +87,27 @@ class AddPersonDetailViewModel(
         date.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY))
         date.set(Calendar.MINUTE, time.get(Calendar.MINUTE))
 
-        personDetail.timestamp = date.timeInMillis
+        return date
     }
 
     fun setSignatureFilePath(path: String) {
         personDetail.signatureFilePath = path
     }
 
-    fun dateButtonClicked() {
-        clickedDate.onNext(Unit)
+    fun startDateButtonClicked() {
+        clickedStartDate.onNext(Unit)
     }
 
-    fun timeButtonClicked() {
-        clickedTime.onNext(Unit)
+    fun startTimeButtonClicked() {
+        clickedStartTime.onNext(Unit)
+    }
+
+    fun endDateButtonClicked() {
+        clickedEndDate.onNext(Unit)
+    }
+
+    fun endTimeButtonClicked() {
+        clickedEndTime.onNext(Unit)
     }
 
     fun signatureButtonClicked() {
@@ -103,9 +126,8 @@ class AddPersonDetailViewModel(
     }
 
     fun addButtonClicked() {
-        setTimestamp(dateTimestamp, timeTimestamp)
-
-        showDurationError.value = !rule.validateDuration(personDetail)
+        setStartTimestamp(startDateTimestamp, startTimeTimestamp)
+        setEndTimestamp(endDateTimestamp, endTimeTimestamp)
 
         // This will still check the cache file and if it validates then we can set the path
         // to be the relative file path for the internal file in the fragment

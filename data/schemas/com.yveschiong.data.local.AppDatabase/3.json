@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "5559528f7244519614f4f798b23cf8ae",
+    "version": 3,
+    "identityHash": "7253b9c38ff55cac31508cfd760fd610",
     "entities": [
       {
         "tableName": "people",
@@ -59,18 +59,18 @@
       },
       {
         "tableName": "people_details",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`startTimestamp` INTEGER NOT NULL, `duration` REAL NOT NULL, `signature_file_path` TEXT NOT NULL, `person_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`person_id`) REFERENCES `people`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`start_timestamp` INTEGER NOT NULL, `end_timestamp` INTEGER NOT NULL, `signature_file_path` TEXT NOT NULL, `person_id` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`person_id`) REFERENCES `people`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "startTimestamp",
-            "columnName": "startTimestamp",
+            "columnName": "start_timestamp",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "duration",
-            "columnName": "duration",
-            "affinity": "REAL",
+            "fieldPath": "endTimestamp",
+            "columnName": "end_timestamp",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -125,7 +125,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5559528f7244519614f4f798b23cf8ae\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7253b9c38ff55cac31508cfd760fd610\")"
     ]
   }
 }

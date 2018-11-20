@@ -7,16 +7,14 @@ import javax.inject.Singleton
 @Singleton
 class RegularPersonDetailRule @Inject constructor(
     private val timestampRule: TimestampRule,
-    private val floatRule: FloatRule,
+    private val complexTimestampRule: ComplexTimestampRule,
     private val stringRule: StringRule,
     private val intRule: IntRule
 ) : PersonDetailRule() {
     override fun validateTimestamp(personDetail: PersonDetail): Boolean {
-        return timestampRule.validate(personDetail.timestamp)
-    }
-
-    override fun validateDuration(personDetail: PersonDetail): Boolean {
-        return floatRule.validate(personDetail.duration)
+        return timestampRule.validate(personDetail.startTimestamp)
+            && timestampRule.validate(personDetail.endTimestamp)
+            && complexTimestampRule.validate(personDetail.startTimestamp, personDetail.endTimestamp)
     }
 
     override fun validateSignatureFilePath(personDetail: PersonDetail): Boolean {

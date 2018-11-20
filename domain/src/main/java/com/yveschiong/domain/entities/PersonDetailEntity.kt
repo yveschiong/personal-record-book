@@ -15,11 +15,11 @@ import kotlinx.android.parcel.Parcelize
         onDelete = ForeignKey.CASCADE)]
 )
 data class PersonDetailEntity(
-    @ColumnInfo(name = "timestamp")
-    var timestamp: Long,
+    @ColumnInfo(name = "start_timestamp")
+    var startTimestamp: Long,
 
-    @ColumnInfo(name = "duration")
-    var duration: Float,
+    @ColumnInfo(name = "end_timestamp")
+    var endTimestamp: Long,
 
     @ColumnInfo(name = "signature_file_path")
     var signatureFilePath: String,

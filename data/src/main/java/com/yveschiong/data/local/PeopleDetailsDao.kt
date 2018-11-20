@@ -9,7 +9,7 @@ interface PeopleDetailsDao {
     @Query("SELECT * FROM people_details")
     fun getPeopleDetails(): Single<List<PersonDetailEntity>>
 
-    @Query("SELECT * FROM people_details WHERE person_id = :personId ORDER BY timestamp ASC")
+    @Query("SELECT * FROM people_details WHERE person_id = :personId ORDER BY start_timestamp ASC")
     fun getPersonDetails(personId: Int): Single<List<PersonDetailEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

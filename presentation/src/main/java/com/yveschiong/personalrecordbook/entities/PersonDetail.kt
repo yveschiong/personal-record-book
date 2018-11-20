@@ -7,17 +7,25 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class PersonDetail(
-    var timestamp: Long = 0,
-    var duration: Float = 0.0f,
+    var startTimestamp: Long = 0,
+    var endTimestamp: Long = 0,
     var signatureFilePath: String = "",
     var personId: Int = 0,
     var id: Int = 0
 ) : Parcelable {
-    fun getDate(): String {
-        return timestamp.getShortDate()
+    fun getStartDate(): String {
+        return startTimestamp.getShortDate()
     }
 
-    fun getTime(): String {
-        return timestamp.getTime()
+    fun getStartTime(): String {
+        return startTimestamp.getTime()
+    }
+
+    fun getEndDate(): String {
+        return endTimestamp.getShortDate()
+    }
+
+    fun getEndTime(): String {
+        return endTimestamp.getTime()
     }
 }

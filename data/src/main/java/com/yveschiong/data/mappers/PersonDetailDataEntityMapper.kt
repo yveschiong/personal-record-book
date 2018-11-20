@@ -11,7 +11,7 @@ class PersonDetailDataEntityMapper @Inject
 constructor() : Mapper<PersonDetailData, PersonDetailEntity>() {
     override fun mapFrom(from: PersonDetailData): PersonDetailEntity {
         return PersonDetailEntity(
-            from.timestamp, from.duration, from.signatureFilePath, from.personId, from.id
+            from.startTimestamp, from.endTimestamp, from.signatureFilePath, from.personId, from.id
         )
     }
 }

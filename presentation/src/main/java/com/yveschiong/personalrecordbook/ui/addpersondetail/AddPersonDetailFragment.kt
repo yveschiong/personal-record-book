@@ -69,8 +69,30 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
             viewModel.personId = it.id
         }
 
-        viewModel.clickedDate.simpleSubscribe { showDatePicker() }
-        viewModel.clickedTime.simpleSubscribe { showTimePicker() }
+        viewModel.clickedStartDate.simpleSubscribe {
+            showDatePicker(viewModel.startDateTimestamp) { date ->
+                viewModel.startDateTimestamp = date.timeInMillis
+            }
+        }
+
+        viewModel.clickedStartTime.simpleSubscribe {
+            showTimePicker(viewModel.startTimeTimestamp) { date ->
+                viewModel.startTimeTimestamp = date.timeInMillis
+            }
+        }
+
+        viewModel.clickedEndDate.simpleSubscribe {
+            showDatePicker(viewModel.endDateTimestamp) { date ->
+                viewModel.endDateTimestamp = date.timeInMillis
+            }
+        }
+
+        viewModel.clickedEndTime.simpleSubscribe {
+            showTimePicker(viewModel.endTimeTimestamp) { date ->
+                viewModel.endTimeTimestamp = date.timeInMillis
+            }
+        }
+
         viewModel.clickedSignature.simpleSubscribe { showSignatureActivity() }
 
         handleAddRecord()
@@ -174,37 +196,37 @@ class AddPersonDetailFragment : BaseFragment<FragmentAddPersonDetailBinding>() {
         }
     }
 
-    private fun showDatePicker() {
+    private fun showDatePicker(timestamp: Long, callback: (Calendar) -> Unit) {
         if (context == null) {
             return
         }
 
         val date = Calendar.getInstance()
-        date.timeInMillis = viewModel.dateTimestamp
+        date.timeInMillis = timestamp
 
         DatePickerDialog(
             context!!,
             DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
                 date.set(year, month, dayOfMonth)
-                viewModel.dateTimestamp = date.timeInMillis
+                callback(date)
             }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 
-    private fun showTimePicker() {
+    private fun showTimePicker(timestamp: Long, callback: (Calendar) -> Unit) {
         if (context == null) {
             return
         }
 
         val date = Calendar.getInstance()
-        date.timeInMillis = viewModel.timeTimestamp
+        date.timeInMillis = timestamp
 
         TimePickerDialog(
             context!!,
             TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
                 date.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 date.set(Calendar.MINUTE, minute)
-                viewModel.timeTimestamp = date.timeInMillis
+                callback(date)
             },
             date.get(Calendar.HOUR_OF_DAY),
             date.get(Calendar.MINUTE),
