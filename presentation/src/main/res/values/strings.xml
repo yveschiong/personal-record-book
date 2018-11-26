@@ -49,4 +49,6 @@
 
     <string name="error_invalid">This input is invalid.</string>
 
+    <string name="delete_person_detail_button_text">Delete Record</string>
+
 </resources>

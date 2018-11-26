@@ -11,8 +11,8 @@ import com.yveschiong.personalrecordbook.entities.PersonDetail
 class AddPersonDetailViewModelFactory(
     private val rule: PersonDetailRule,
     private val useCase: AddPersonDetail,
-    private val mapper: Mapper<PersonDetail, PersonDetailEntity>) :
-    ViewModelProvider.Factory {
+    private val mapper: Mapper<PersonDetail, PersonDetailEntity>
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddPersonDetailViewModel::class.java)) {

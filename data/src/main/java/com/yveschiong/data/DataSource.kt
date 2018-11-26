@@ -11,4 +11,5 @@ interface DataSource {
     fun addPerson(person: PersonEntity): Single<Long>
     fun getPersonDetails(personId: Int): Single<List<PersonDetailData>>
     fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long>
+    fun deletePersonDetail(personDetail: PersonDetailEntity): Single<Int>
 }

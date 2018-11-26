@@ -19,7 +19,7 @@ interface PeopleDetailsDao {
     fun update(detail: PersonDetailEntity)
 
     @Delete
-    fun delete(detail: PersonDetailEntity)
+    fun delete(detail: PersonDetailEntity): Int
 
     @Query("DELETE FROM people_details")
     fun deleteAll()

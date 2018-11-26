@@ -24,4 +24,8 @@ class RemoteDataSource @Inject constructor() : DataSource {
     override fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long> {
         TODO("not implemented")
     }
+
+    override fun deletePersonDetail(personDetail: PersonDetailEntity): Single<Int> {
+        TODO("not implemented")
+    }
 }

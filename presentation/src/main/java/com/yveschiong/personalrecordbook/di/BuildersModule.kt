@@ -5,12 +5,14 @@ import com.yveschiong.personalrecordbook.ui.addperson.AddPersonActivity
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragment
 import com.yveschiong.personalrecordbook.ui.addperson.AddPersonFragmentModule
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivity
-import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivityModule
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragment
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailFragmentModule
+import com.yveschiong.personalrecordbook.ui.editpersondetail.EditPersonDetailFragment
+import com.yveschiong.personalrecordbook.ui.editpersondetail.EditPersonDetailFragmentModule
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragment
 import com.yveschiong.personalrecordbook.ui.people.PeopleFragmentModule
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivity
+import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailActivityModule
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragment
 import com.yveschiong.personalrecordbook.ui.persondetail.PersonDetailFragmentModule
 import com.yveschiong.personalrecordbook.ui.signature.SignatureActivity
@@ -32,10 +34,10 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindAddPersonActivity(): AddPersonActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [PersonDetailActivityModule::class])
     abstract fun bindPersonDetailActivity(): PersonDetailActivity
 
-    @ContributesAndroidInjector(modules = [AddPersonDetailActivityModule::class])
+    @ContributesAndroidInjector
     abstract fun bindAddPersonDetailActivity(): AddPersonDetailActivity
 
     @ContributesAndroidInjector
@@ -50,6 +52,9 @@ abstract class BuildersModule {
 
     @ContributesAndroidInjector(modules = [PersonDetailFragmentModule::class])
     abstract fun bindPersonDetailFragment(): PersonDetailFragment
+
+    @ContributesAndroidInjector(modules = [EditPersonDetailFragmentModule::class])
+    abstract fun bindEditPersonDetailFragment(): EditPersonDetailFragment
 
     @ContributesAndroidInjector(modules = [AddPersonDetailFragmentModule::class])
     abstract fun bindAddPersonDetailFragment(): AddPersonDetailFragment

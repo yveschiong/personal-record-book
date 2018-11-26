@@ -9,4 +9,5 @@ interface AppRepository {
     fun addPerson(person: PersonEntity): Single<Long>
     fun getPersonDetails(personId: Int): Single<List<PersonDetailEntity>>
     fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long>
+    fun deletePersonDetail(personDetail: PersonDetailEntity): Single<Int>
 }

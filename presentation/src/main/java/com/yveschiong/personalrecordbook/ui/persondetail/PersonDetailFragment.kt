@@ -16,6 +16,7 @@ import com.yveschiong.personalrecordbook.databinding.FragmentPersonDetailBinding
 import com.yveschiong.personalrecordbook.entities.Person
 import com.yveschiong.personalrecordbook.entities.PersonDetail
 import com.yveschiong.personalrecordbook.ui.addpersondetail.AddPersonDetailActivity
+import com.yveschiong.personalrecordbook.ui.editpersondetail.EditPersonDetailFragment
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.list_person_details.view.*
 import javax.inject.Inject
@@ -63,7 +64,7 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
 
         adapter = PeopleDetailsAdapter(object : OnAdapterViewClicked<PersonDetail> {
             override fun onClicked(data: PersonDetail) {
-
+                val fragment = EditPersonDetailFragment()
             }
         }, internalStorageManager)
 

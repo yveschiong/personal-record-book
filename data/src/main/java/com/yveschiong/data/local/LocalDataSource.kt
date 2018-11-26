@@ -30,4 +30,8 @@ class LocalDataSource @Inject constructor(
     override fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long> {
         return Single.fromCallable { peopleDetailsDao.insert(personDetail) }
     }
+
+    override fun deletePersonDetail(personDetail: PersonDetailEntity): Single<Int> {
+        return Single.fromCallable { peopleDetailsDao.delete(personDetail) }
+    }
 }

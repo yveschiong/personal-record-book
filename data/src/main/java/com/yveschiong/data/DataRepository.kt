@@ -32,4 +32,8 @@ class DataRepository @Inject constructor(
     override fun addPersonDetail(personDetail: PersonDetailEntity): Single<Long> {
         return localDataSource.addPersonDetail(personDetail)
     }
+
+    override fun deletePersonDetail(personDetail: PersonDetailEntity): Single<Int> {
+        return localDataSource.deletePersonDetail(personDetail)
+    }
 }
