@@ -1,9 +1,10 @@
 package com.yveschiong.personalrecordbook.ui.editpersondetail
 
+import android.app.Dialog
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import com.yveschiong.data.storage.InternalStorageManager
+import android.view.Window
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseDialogFragment
@@ -11,10 +12,9 @@ import com.yveschiong.personalrecordbook.databinding.FragmentEditPersonDetailBin
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class EditPersonDetailFragment : BaseDialogFragment<FragmentEditPersonDetailBinding>() {
 
-    @Inject
-    lateinit var internalStorageManager: InternalStorageManager
+
+class EditPersonDetailFragment : BaseDialogFragment<FragmentEditPersonDetailBinding>() {
 
     @Inject
     lateinit var viewModelFactory: EditPersonDetailViewModelFactory
@@ -42,6 +42,14 @@ class EditPersonDetailFragment : BaseDialogFragment<FragmentEditPersonDetailBind
             ViewModelProviders.of(this, viewModelFactory).get(EditPersonDetailViewModel::class.java)
         binding.vm = viewModel
 
-        viewModel.personDetail = arguments?.getParcelable(Constants.EXTRA_PERSON_DETAIL)
+        viewModel.detail = arguments?.getParcelable(Constants.EXTRA_PERSON_DETAIL)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        // request a window without the title
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        return dialog
     }
 }

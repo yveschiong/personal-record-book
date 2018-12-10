@@ -1,5 +1,6 @@
 package com.yveschiong.personalrecordbook.ui.editpersondetail
 
+import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.domain.common.Mapper
 import com.yveschiong.domain.entities.PersonDetailEntity
 import com.yveschiong.domain.usecases.DeletePersonDetail
@@ -9,15 +10,16 @@ import io.reactivex.subjects.PublishSubject
 
 class EditPersonDetailViewModel(
     private val useCase: DeletePersonDetail,
-    private val mapper: Mapper<PersonDetail, PersonDetailEntity>) :
-    BaseViewModel() {
+    private val mapper: Mapper<PersonDetail, PersonDetailEntity>,
+    val manager: InternalStorageManager
+) : BaseViewModel() {
 
-    var personDetail: PersonDetail? = null
+    var detail: PersonDetail? = null
 
     var result: PublishSubject<Long> = PublishSubject.create()
 
     fun deleteButtonClicked() {
-        personDetail?.let {
+        detail?.let {
             useCase.delete(mapper.mapFrom(it)).simpleSubscribe { result }
         }
     }

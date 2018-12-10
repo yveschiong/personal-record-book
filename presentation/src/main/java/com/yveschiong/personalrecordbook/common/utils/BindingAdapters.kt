@@ -89,6 +89,7 @@ object BindingAdapters {
             InternalStorageManager.TYPE_SIGNATURE,
             url
         )
+
         GlideApp.with(this).load(absoluteUrl).into(this)
     }
 

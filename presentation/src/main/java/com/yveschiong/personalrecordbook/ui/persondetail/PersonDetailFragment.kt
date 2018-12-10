@@ -10,6 +10,7 @@ import com.yveschiong.data.storage.InternalStorageManager
 import com.yveschiong.personalrecordbook.R
 import com.yveschiong.personalrecordbook.common.Constants
 import com.yveschiong.personalrecordbook.common.base.BaseFragment
+import com.yveschiong.personalrecordbook.common.extensions.showDialogFragment
 import com.yveschiong.personalrecordbook.common.listeners.OnAdapterViewClicked
 import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
 import com.yveschiong.personalrecordbook.databinding.FragmentPersonDetailBinding
@@ -64,7 +65,10 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
 
         adapter = PeopleDetailsAdapter(object : OnAdapterViewClicked<PersonDetail> {
             override fun onClicked(data: PersonDetail) {
-                val fragment = EditPersonDetailFragment()
+                val arguments = Bundle()
+                arguments.putParcelable(Constants.EXTRA_PERSON_DETAIL, data)
+
+                showDialogFragment(EditPersonDetailFragment(), arguments)
             }
         }, internalStorageManager)
 
