@@ -26,4 +26,6 @@
     <dimen name="signature_preview_margins">15dp</dimen>
 
     <dimen name="button_error_margin">5dp</dimen>
+
+    <dimen name="edit_person_detail_signature_height">200dp</dimen>
 </resources>

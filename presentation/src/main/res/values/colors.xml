@@ -20,7 +20,7 @@
 
     <color name="person_detail_record_header">#D81B60</color>
     <color name="person_detail_record_header_text_color">#FFFFFF</color>
-    <color name="person_detail_record_item_color">#E0E0E0</color>
+    <color name="person_detail_record_item_color">#F5F5F5</color>
     <color name="person_detail_record_item_text_color">#000000</color>
 
     <color name="signature_image_background">#FFFFFF</color>

@@ -16,11 +16,11 @@ class EditPersonDetailViewModel(
 
     var detail: PersonDetail? = null
 
-    var result: PublishSubject<Long> = PublishSubject.create()
+    var result: PublishSubject<Int> = PublishSubject.create()
 
     fun deleteButtonClicked() {
         detail?.let {
-            useCase.delete(mapper.mapFrom(it)).simpleSubscribe { result }
+            useCase.delete(mapper.mapFrom(it)).simpleSubscribe(result)
         }
     }
 }

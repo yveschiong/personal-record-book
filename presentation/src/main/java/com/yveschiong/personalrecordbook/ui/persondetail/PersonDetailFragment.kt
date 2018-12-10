@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.yveschiong.data.storage.InternalStorageManager
@@ -68,14 +69,28 @@ class PersonDetailFragment : BaseFragment<FragmentPersonDetailBinding>(), Refres
                 val arguments = Bundle()
                 arguments.putParcelable(Constants.EXTRA_PERSON_DETAIL, data)
 
-                showDialogFragment(EditPersonDetailFragment(), arguments)
+                val fragment = EditPersonDetailFragment()
+                fragment.arguments = arguments
+
+                fragment.dismissed.simpleSubscribe { refresh() }
+
+                showDialogFragment(fragment)
             }
         }, internalStorageManager)
 
         binding.listPersonDetails.recyclerView.setEmptyView(binding.listPersonDetails.emptyView)
 
-        binding.listPersonDetails.recyclerView.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
+
+        binding.listPersonDetails.recyclerView.layoutManager = layoutManager
         binding.listPersonDetails.recyclerView.adapter = adapter
+
+        binding.listPersonDetails.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                layoutManager.orientation
+            )
+        )
     }
 
     private fun showAddPeopleDetailActivity(person: Person) {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.yveschiong.personalrecordbook.common.extensions.defaultThreads
 import com.yveschiong.personalrecordbook.common.extensions.toast
+import com.yveschiong.personalrecordbook.common.utils.view.Refreshable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +32,14 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.setLifecycleOwner(this)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (this is Refreshable) {
+            refresh()
+        }
     }
 
     override fun onDestroyView() {
