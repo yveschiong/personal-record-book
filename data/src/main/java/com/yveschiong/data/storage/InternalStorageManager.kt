@@ -9,9 +9,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class InternalStorageManager @Inject constructor(
-    context: Context
-) {
+class InternalStorageManager @Inject constructor(context: Context) {
 
     companion object {
         private const val SUBDIRECTORY_SIGNATURE = "signatures"
